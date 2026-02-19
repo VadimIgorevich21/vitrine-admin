@@ -1,0 +1,23 @@
+@font-face {
+    font-weight: 400; /* Соответствует значению normal */
+    font-family: "Public Sans";
+    src: url("./fonts/PublicSans-Light.ttf");
+}
+
+@font-face {
+    font-weight: 600; /* Соответствует значению bold */
+    font-family: "Public Sans";
+    src: url("./fonts/PublicSans-SemiBold.ttf");
+}
+
+@font-face {
+    font-weight: 700; /* Соответствует значению bold */
+    font-family: "Public Sans";
+    src: url("./fonts/PublicSans-SemiBold.ttf");
+}
+
+@font-face {
+    font-weight: 300;
+    font-family: "Public Sans";
+    src: url("./fonts/PublicSans-Thin.ttf");
+}

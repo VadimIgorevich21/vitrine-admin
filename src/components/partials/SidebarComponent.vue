@@ -1,0 +1,167 @@
+<template>
+  <!-- sidebar -->
+  <nav class="sidebar bg-white dark:bg-gray-800">
+    <!-- sidebar head -->
+    <div class="sidebar-head p-4">
+      <router-link to="/" exact>
+        <h2
+          class="text-2xl font-normal text-gray-800 dark:text-gray-500"
+          translate="no"
+        >
+          <img src="../../assets/img/logo.svg" alt="Logo" class="logo" />
+          Windzo<span class="text-primary">.</span>
+          <span
+            class="bg-gray-700 absolute mt-2 dark:block hidden rounded-md py-1 px-2 text-xs text-gray-200"
+            >Dark mode</span
+          >
+        </h2>
+      </router-link>
+      <button
+        class="lg:hidden block float-right -mt-7 dark:text-gray-200"
+        @click="sidebarToggle"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          role="img"
+          width="25px"
+          height="25px"
+          preserveAspectRatio="xMidYMid meet"
+          viewBox="0 0 32 32"
+        >
+          <path
+            fill="currentColor"
+            d="M7.219 5.781L5.78 7.22L14.563 16L5.78 24.781l1.44 1.439L16 17.437l8.781 8.782l1.438-1.438L17.437 16l8.782-8.781L24.78 5.78L16 14.563z"
+          />
+        </svg>
+      </button>
+    </div>
+    <!-- sidebar list -->
+    <div class="sidebar-list py-4 px-2 mt-4 pb-24 md:pb-4">
+      <div class="wrap-item mt-4 dark:text-gray-500">
+        <div v-if="is('admin') || can('test')" class="item mt-3">
+          <router-link
+            to="/"
+            exact
+            class="w-full flex text-left rounded-md box-border py-3 px-1 hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
+            <span class="mr-3 text-xl"><Icon icon="bi:activity" /></span>
+            <span class="w-full"> Пользователи </span>
+          </router-link>
+        </div>
+        <div class="item mt-3">
+          <menu-accordion>
+            <template #icon><Icon icon="bi:activity" /></template>
+            <template #title>
+              <span class="w-full"> Статистика Users </span>
+            </template>
+            <template #content>
+              <div class="item mt-3">
+                <router-link
+                  to="/users"
+                  exact
+                  class="w-full flex text-left rounded-md box-border py-3 px-1 hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  <span class="mr-3 text-xl"><Icon icon="bi:activity" /></span>
+                  <span class="w-full"> Users </span>
+                </router-link>
+              </div>
+              <div class="item mt-3">
+                <router-link
+                  to="/maintenance"
+                  exact
+                  class="w-full flex text-left rounded-md box-border py-3 px-1 hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  <span class="mr-3 text-xl"><Icon icon="bi:activity" /></span>
+                  <span class="w-full"> maintenance </span>
+                </router-link>
+              </div>
+            </template>
+          </menu-accordion>
+        </div>
+      </div>
+      <p class="font-medium text-gray-400 mt-4 dark:text-gray-600">
+        Разделитель
+      </p>
+      <div class="wrap-item mt-4 dark:text-gray-500">
+        <div class="item mt-3">
+          <router-link
+            to="/settings"
+            exact
+            class="w-full flex text-left rounded-md box-border py-3 px-1 hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
+            <span class="mr-3 text-xl">
+              <Icon icon="bx:dollar-circle" />
+            </span>
+            <span class="w-full"> Настройки </span>
+          </router-link>
+        </div>
+      </div>
+      <p class="font-medium text-gray-400 mt-4 dark:text-gray-600">
+        Дополнительно
+      </p>
+      <div class="wrap-item mt-4 dark:text-gray-500">
+        <div v-if="authStore.identity.id === 1" class="item mt-3">
+          <router-link
+            to="/users/1/edit"
+            exact
+            class="w-full flex text-left rounded-md box-border py-3 px-1 hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
+            <span class="mr-3 text-xl">
+              <Icon icon="bx:dollar-circle" />
+            </span>
+            <span class="w-full"> Edit1 </span>
+          </router-link>
+        </div>
+      </div>
+    </div>
+  </nav>
+</template>
+<script>
+import { Icon } from "@iconify/vue";
+import { useAuth } from "@/stores/authStore";
+import { syncConfigs } from "@/stores/syncConfigs";
+import MenuAccordion from "../partials/MenuAccordion.vue";
+import { mapGetters, mapState } from "pinia";
+
+export default {
+  components: {
+    MenuAccordion,
+    Icon,
+  },
+  setup() {
+    const authStore = useAuth();
+    const is = authStore.is;
+    const can = authStore.can;
+
+    const configStore2 = syncConfigs();
+    const countActualOperations = configStore2.countActualOperations;
+    return {
+      authStore: authStore,
+      is: is,
+      can: can,
+      countActualOperations: countActualOperations,
+      configStore2: configStore2,
+    };
+  },
+  data() {
+    return {
+      menuItems: [],
+    };
+  },
+  computed: {
+    ...mapState(syncConfigs, {
+      customerTypes: "customers",
+    }),
+  },
+  methods: {
+    sidebarToggle: function () {
+      document.querySelector(".flex-sidebar").classList.add("hidden");
+    },
+  },
+};
+</script>
+<style>
+.active {
+}
+</style>
