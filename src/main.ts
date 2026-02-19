@@ -243,7 +243,7 @@ const linkElement = document.querySelector(
 ) as HTMLLinkElement | null;
 
 if (linkElement && !window.location.hostname.includes("localhost")) {
-  if (window.location.hostname.includes("stage")) {
+  if (window.location.hostname.includes("vitrine")) {
     linkElement.href = "/favicon-stage.png";
   } else {
     linkElement.href = "/favicon-prod.png";
