@@ -1,7 +1,7 @@
 {
   "name": "traders-vue",
   "private": true,
-  "version": "13.02.2026",
+  "version": "EMPTY ADMIN",
   "scripts": {
     "serve": "npm run dev --debug",
     "dev": "vite --mode dev",
