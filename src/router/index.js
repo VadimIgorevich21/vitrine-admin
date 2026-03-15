@@ -64,6 +64,7 @@ const router = createRouter({
         title: "Orders",
         layout: "default",
         requiresAuth: true,
+        noQueryRecreate: true,
       },
     },
     {

@@ -47,6 +47,21 @@
                 </div>
               </div>
             </div>
+            <div class="col-lg-6">
+              <div class="input-group">
+                <reworked-multiselect
+                  key="value"
+                  v-model="selectedStatus"
+                  class="inline-block"
+                  :multiple="false"
+                  :options="statuses"
+                  :disabled="loading"
+                  label="label"
+                  track-by="value"
+                  placeholder="Статус"
+                />
+              </div>
+            </div>
           </div>
         </div>
         <div class="row">
@@ -63,6 +78,16 @@
                 placeholder: 'дд.мм.гггг - дд.мм.гггг',
               }"
             />
+          </div>
+          <div class="col-lg-3 mt-3 select-min-height-40">
+            <reworked-multiselect
+              v-model="userFilter"
+              :options="users"
+              placeholder="Пользователь"
+              label="name"
+              track-by="id"
+              :show-labels="false"
+            ></reworked-multiselect>
           </div>
         </div>
       </template>
@@ -106,19 +131,36 @@ import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import DropdownDotsComponent from "@/components/DropdownDotsComponent.vue";
 import StatusAttribute from "@/views/orders/partial/StatusAttribute.vue";
+import { syncConfigs } from "@/stores/syncConfigs";
+import { ReworkedMultiselect } from "@/components/reworked-multiselect";
+import UserService from "@/services/UserService";
 
 export default {
   components: {
+    ReworkedMultiselect,
     StatusAttribute,
     DropdownDotsComponent,
     WrapperComponent,
     GridComponent,
     Datepicker,
   },
+  setup() {
+    const configStore2 = syncConfigs();
+    const statuses = configStore2.orders.statuses;
+
+    console.log(configStore2.orders);
+    console.log(statuses);
+    console.log(statuses);
+    console.log(statuses);
+    return {
+      statuses: statuses,
+    };
+  },
   data: () => ({
     loading: false,
     meta: null,
     searchText: null,
+    selectedStatus: null,
     orders: [],
     headers: [
       { text: "#", value: "id" },
@@ -135,6 +177,8 @@ export default {
       dayjs().tz("Europe/Kiev").format("YYYY-MM-DD"),
     ],
 
+    users: [],
+    userFilter: null,
     sortedColumn: null,
     direction: null,
   }),
@@ -151,6 +195,16 @@ export default {
       deep: true,
     },
 
+    userFilter(value) {
+      const searchTextValue = this.searchText?.trim() || null;
+      this.pushQueryParams({
+        user_id: value?.id,
+        search: searchTextValue,
+        page: 1,
+      });
+
+      this.pushQueryParams({ user_id: value?.id });
+    },
     async period() {
       if (!this.period) {
         this.pushQueryParams({
@@ -180,8 +234,19 @@ export default {
         page: 1,
       });
     },
+
+    selectedStatus: function () {
+      const searchTextValue = this.searchText?.trim() || null;
+      this.pushQueryParams({
+        status: this.selectedStatus?.value,
+        search: searchTextValue,
+        page: 1,
+      });
+    },
   },
   async created() {
+    await this.loadUsers();
+
     const { date_from, date_to } = this.$route.query;
 
     const isValidDate = (d) => d && dayjs(d, "YYYY-MM-DD", true).isValid();
@@ -190,6 +255,10 @@ export default {
       isValidDate(date_from) ? date_from : dayjs().startOf("month").toDate(),
       isValidDate(date_to) ? date_to : dayjs().endOf("day").toDate(),
     ];
+
+    this.userFilter = this.users.find(
+      (item) => item.id === parseInt(this.$route.query.user_id)
+    );
     await this.getOrders();
   },
   methods: {
@@ -203,6 +272,8 @@ export default {
             sortedColumn: this.sortedColumn,
             direction: this.direction,
             page: this.currentPage,
+            status: this.$route.query.status,
+            user_id: this.$route.query.user_id,
           },
           identity
         ),
@@ -212,6 +283,10 @@ export default {
       this.meta = response.data.meta;
 
       this.loading = false;
+    },
+    async loadUsers() {
+      const response = await UserService.getClients("-1");
+      this.users = response.data.data;
     },
     sortOrders(sortedColumn, direction) {
       this.sortedColumn = sortedColumn;

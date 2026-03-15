@@ -110,16 +110,16 @@ export const syncConfigs = defineStore("syncConfigs", {
 
         statuses:
           state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.statuses
-            ? state.mainConfigs.operations.statuses
+          state.mainConfigs.orders &&
+          state.mainConfigs.orders.statuses
+            ? state.mainConfigs.orders.statuses
             : [],
 
         payment_methods:
           state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.payment_methods
-            ? state.mainConfigs.operations.payment_methods
+          state.mainConfigs.orders &&
+          state.mainConfigs.orders.payment_methods
+            ? state.mainConfigs.orders.payment_methods
             : [],
       };
     },
