@@ -10,7 +10,6 @@
       :per-page="meta?.per_page"
       :items-total="meta?.total"
       @sorted="sortOrders"
-      @click-item="onClickItem"
     >
       <template #header>
         <div class="card-header h-auto pb-3">
@@ -48,38 +47,23 @@
               </div>
             </div>
             <div class="col-lg-6">
-              <div class="input-group">
-                <reworked-multiselect
-                  key="value"
-                  v-model="selectedStatus"
-                  class="inline-block"
-                  :multiple="false"
-                  :options="statuses"
-                  :disabled="loading"
-                  label="label"
-                  track-by="value"
-                  placeholder="Статус"
-                />
-              </div>
+              <datepicker
+                v-model="period"
+                timezone="Europe/Kiev"
+                auto-apply
+                format="dd.MM.yyyy"
+                class="dark:dp__theme_dark"
+                range
+                :input-props="{
+                  class: 'form-control form-control-sm',
+                  placeholder: 'дд.мм.гггг - дд.мм.гггг',
+                }"
+              />
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-6 mt-2">
-            <datepicker
-              v-model="period"
-              timezone="Europe/Kiev"
-              auto-apply
-              format="dd.MM.yyyy"
-              class="dark:dp__theme_dark"
-              range
-              :input-props="{
-                class: 'form-control form-control-sm',
-                placeholder: 'дд.мм.гггг - дд.мм.гггг',
-              }"
-            />
-          </div>
-          <div class="col-lg-3 mt-3 select-min-height-40">
+          <div class="col-lg-6 mt-2 select-min-height-40">
             <reworked-multiselect
               v-model="userFilter"
               :options="users"
@@ -89,7 +73,25 @@
               :show-labels="false"
             ></reworked-multiselect>
           </div>
+          <div class="col-lg-6">
+            <div class="input-group">
+              <reworked-multiselect
+                key="value"
+                v-model="selectedStatus"
+                class="inline-block"
+                :multiple="false"
+                :options="statuses"
+                :disabled="loading"
+                label="label"
+                track-by="value"
+                placeholder="Статус"
+              />
+            </div>
+          </div>
         </div>
+      </template>
+      <template #item-user_id="{ item }">
+        {{ item.user?.name }}
       </template>
       <template #item-created_at="{ item }">
         {{ $filters.formatDateTime(item.created_at) }}
@@ -169,8 +171,13 @@ export default {
         value: "user_id",
       },
       { text: "Статус", value: "status" },
-      { text: "Дата", value: "created_at" },
-      { text: "", value: "actions", width: "1%" },
+      { text: "Дата", value: "created_at", custom_link: true },
+      {
+        text: "",
+        value: "actions",
+        width: "1%",
+        custom_link: true,
+      },
     ],
     period: [
       dayjs().tz("Europe/Kiev").format("YYYY-MM-01"),
