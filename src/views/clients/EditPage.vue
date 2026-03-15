@@ -48,7 +48,7 @@ export default {
 
     async userSaved() {
       await this.$router.push({
-        name: "users.index",
+        name: "clients.index",
       });
     },
   },

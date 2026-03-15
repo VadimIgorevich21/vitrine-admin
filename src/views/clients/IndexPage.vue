@@ -53,6 +53,10 @@
                 <th scope="col" class="uppercase px-6 py-3">Имя</th>
                 <th scope="col" class="uppercase px-6 py-3">Почта</th>
                 <th scope="col" class="uppercase px-6 py-3">
+                  Статус верификации
+                </th>
+                <th scope="col" class="uppercase px-6 py-3">Доступ</th>
+                <th scope="col" class="uppercase px-6 py-3">
                   Последняя активность
                 </th>
                 <th scope="col" class="uppercase px-6 py-3"></th>
@@ -67,6 +71,13 @@
                 <td class="px-6 py-4">{{ client.id }}</td>
                 <td class="px-6 py-4">{{ client.name }}</td>
                 <td class="px-6 py-4">{{ client.email }}</td>
+                <td class="px-6 py-4">
+                  <KycStatusAttribute :user="client"></KycStatusAttribute>
+                </td>
+
+                <td class="px-6 py-4">
+                  {{ client.has_access ? "Active" : "Inactive" }}
+                </td>
                 <td class="px-6 py-4">
                   <span v-if="!client.activity_at" class="text-muted"
                     >Не было</span
@@ -130,9 +141,11 @@ import LoadingComponent from "@/components/LoadingComponent.vue";
 import DropdownDotsComponent from "@/components/DropdownDotsComponent.vue";
 import UserService from "@/services/UserService";
 import { identity, pickBy } from "lodash";
+import KycStatusAttribute from "@/views/clients/partial/KycStatusAttribute.vue";
 
 export default {
   components: {
+    KycStatusAttribute,
     WrapperComponent,
     PaginationComponent,
     LoadingComponent,
