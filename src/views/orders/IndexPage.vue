@@ -7,7 +7,10 @@
       :loading="loading"
       :message-for-empty-table="'Заказов не найдено.'"
       :resource-url="'orders'"
+      :per-page="meta?.per_page"
+      :items-total="meta?.total"
       @sorted="sortOrders"
+      @click-item="onClickItem"
     >
       <template #header>
         <div class="card-header h-auto pb-3">
@@ -46,6 +49,22 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="col-lg-6 mt-2">
+            <datepicker
+              v-model="period"
+              timezone="Europe/Kiev"
+              auto-apply
+              format="dd.MM.yyyy"
+              class="dark:dp__theme_dark"
+              range
+              :input-props="{
+                class: 'form-control form-control-sm',
+                placeholder: 'дд.мм.гггг - дд.мм.гггг',
+              }"
+            />
+          </div>
+        </div>
       </template>
       <template #item-created_at="{ item }">
         {{ $filters.formatDateTime(item.created_at) }}
@@ -78,8 +97,6 @@ import * as API from "@/services/API";
 import WrapperComponent from "@/components/WrapperComponent.vue";
 import GridComponent from "@/components/GridComponent.vue";
 import { identity, pickBy } from "lodash";
-// import moment from "moment-timezone";
-// moment.tz.setDefault("Europe/Kiev");
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -87,7 +104,6 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import moment from "moment-timezone";
 import DropdownDotsComponent from "@/components/DropdownDotsComponent.vue";
 import StatusAttribute from "@/views/orders/partial/StatusAttribute.vue";
 
@@ -97,13 +113,13 @@ export default {
     DropdownDotsComponent,
     WrapperComponent,
     GridComponent,
+    Datepicker,
   },
   data: () => ({
     loading: false,
     meta: null,
     searchText: null,
     orders: [],
-
     headers: [
       { text: "#", value: "id" },
       {
@@ -113,6 +129,10 @@ export default {
       { text: "Статус", value: "status" },
       { text: "Дата", value: "created_at" },
       { text: "", value: "actions", width: "1%" },
+    ],
+    period: [
+      dayjs().tz("Europe/Kiev").format("YYYY-MM-01"),
+      dayjs().tz("Europe/Kiev").format("YYYY-MM-DD"),
     ],
 
     sortedColumn: null,
@@ -124,22 +144,13 @@ export default {
     },
   },
   watch: {
-    // "$route.query.type": function () {
-    //   this.getOperations();
-    // },
-    // currentPage: function () {
-    //   this.getCryptoCurrencyStatistics();
-    // },
-
     "$route.query": {
       async handler() {
-        await this.getCryptoCurrencyStatistics();
+        await this.getOrders();
       },
+      deep: true,
     },
 
-    // period() {
-    //   this.getCryptoCurrencyStatistics();
-    // },
     async period() {
       if (!this.period) {
         this.pushQueryParams({
@@ -147,15 +158,13 @@ export default {
           date_to: null,
           page: 1,
         });
-
-        await this.getOrders();
         return;
       }
-      const newFrom = this.period
-        ? moment(this.period[0]).format("YYYY-MM-DD")
+      const newFrom = this.period[0]
+        ? dayjs(this.period[0]).format("YYYY-MM-DD")
         : null;
-      const newTo = this.period
-        ? moment(this.period[1]).format("YYYY-MM-DD")
+      const newTo = this.period[1]
+        ? dayjs(this.period[1]).format("YYYY-MM-DD")
         : null;
 
       if (
@@ -170,21 +179,16 @@ export default {
         date_to: newTo,
         page: 1,
       });
-
-      await this.getOrders();
     },
   },
   async created() {
-    this.searchText = this.$route.query.search ?? null;
-
     const { date_from, date_to } = this.$route.query;
 
-    const isValidDate = (d) => d && moment(d, "YYYY-MM-DD", true).isValid();
+    const isValidDate = (d) => d && dayjs(d, "YYYY-MM-DD", true).isValid();
 
     this.period = [
-      isValidDate(date_from) ? date_from : moment().format("YYYY-MM-01"),
-
-      isValidDate(date_to) ? date_to : moment().format("YYYY-MM-DD"),
+      isValidDate(date_from) ? date_from : dayjs().startOf("month").toDate(),
+      isValidDate(date_to) ? date_to : dayjs().endOf("day").toDate(),
     ];
     await this.getOrders();
   },
@@ -194,15 +198,8 @@ export default {
       const response = await API.apiClient.get("/orders", {
         params: pickBy(
           {
-            query: this.searchText,
-
-            date_from: this.period?.[0]
-              ? moment(this.period[0]).format("YYYY-MM-DD")
-              : this.$route.query.date_from ?? null,
-
-            date_to: this.period?.[1]
-              ? moment(this.period[1]).format("YYYY-MM-DD")
-              : this.$route.query.date_to ?? null,
+            date_from: this.$route.query.date_from,
+            date_to: this.$route.query.date_to,
             sortedColumn: this.sortedColumn,
             direction: this.direction,
             page: this.currentPage,
@@ -211,7 +208,6 @@ export default {
         ),
       });
 
-      // this.statisticsTransferByDayReports = response.data.data;
       this.orders = response.data.data;
       this.meta = response.data.meta;
 
@@ -229,18 +225,24 @@ export default {
             ...this.$route.query,
             ...query,
           },
-          identity
+          (val) => val !== null && val !== undefined && val !== ""
         ),
       });
     },
+    onClickItem(item) {
+      if (item.actions?.includes("update")) {
+        this.$router.push({
+          name: "orders.edit",
+          params: { id: item.id },
+        });
+      }
+    },
     async applySearch() {
       const value = this.searchText?.trim() || null;
-
       this.pushQueryParams({
         search: value,
         page: 1,
       });
-      // await this.getOperations();
     },
     async onEmptySearchInput() {
       if (!this.searchText) {
@@ -249,10 +251,6 @@ export default {
           page: 1,
         });
       }
-    },
-    cancelOrder(order) {
-      alert("cancel order");
-      console.log("cancel order " + order);
     },
   },
 };

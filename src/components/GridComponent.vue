@@ -17,7 +17,7 @@
             <tr>
               <th
                 v-for="header in headers"
-                :key="header.value"
+                :key="header"
                 scope="col"
                 class="uppercase px-2 py-3"
                 :class="header.class"
@@ -41,13 +41,13 @@
           <tbody>
             <tr
               v-for="item in items"
-              :key="item.id"
+              :key="item"
               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50"
               @click="() => $emit('click-item', item)"
             >
               <td
                 v-for="header in headers"
-                :key="header.value"
+                :key="header"
                 scope="col"
                 class="px-2 py-3 cursor-pointer"
                 :class="header.class"
