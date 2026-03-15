@@ -64,44 +64,6 @@ export const syncConfigs = defineStore("syncConfigs", {
       return state.mainConfigs;
     },
 
-    countActualOperations(state) {
-      return state.mainConfigs && state.mainConfigs.countActualOperations
-        ? state.mainConfigs.countActualOperations
-        : null;
-    },
-
-    unreadNotificationsCount(state) {
-      return state.mainConfigs && state.mainConfigs.unreadNotificationsCount
-        ? state.mainConfigs.unreadNotificationsCount
-        : null;
-    },
-
-    allOperationsToProcessingCount(state) {
-      return state.mainConfigs &&
-        state.mainConfigs.allOperationsToProcessingCount
-        ? state.mainConfigs.allOperationsToProcessingCount
-        : null;
-    },
-
-    operationsToVerificationCount(state) {
-      return state.mainConfigs &&
-        state.mainConfigs.operationsToVerificationCount
-        ? state.mainConfigs.operationsToVerificationCount
-        : null;
-    },
-
-    unreadOperationsCount(state) {
-      return state.mainConfigs && state.mainConfigs.unreadOperationsCount
-        ? state.mainConfigs.unreadOperationsCount
-        : null;
-    },
-
-    notifications(state) {
-      return state.mainConfigs && state.mainConfigs.notifications
-        ? state.mainConfigs.notifications
-        : [];
-    },
-
     maintenanceNotification(state) {
       let notification = state?.mainConfigs?.maintenanceNotification;
       if (!notification) {
@@ -123,99 +85,6 @@ export const syncConfigs = defineStore("syncConfigs", {
           state.mainConfigs.currencies.all
             ? state.mainConfigs.currencies.all
             : [],
-        allWithIrrelevant:
-          state.mainConfigs &&
-          state.mainConfigs.currencies &&
-          state.mainConfigs.currencies.allWithIrrelevant
-            ? state.mainConfigs.currencies.allWithIrrelevant
-            : [],
-        withoutCryptocurrency:
-          state.mainConfigs &&
-          state.mainConfigs.currencies &&
-          state.mainConfigs.currencies.withoutCryptocurrency
-            ? state.mainConfigs.currencies.withoutCryptocurrency
-            : [],
-        onlyCryptocurrency:
-          state.mainConfigs &&
-          state.mainConfigs.currencies &&
-          state.mainConfigs.currencies.onlyCryptocurrency
-            ? state.mainConfigs.currencies.onlyCryptocurrency
-            : [],
-      };
-    },
-
-    statistics(state) {
-      return {
-        telegramCommandNames:
-          state.mainConfigs &&
-          state.mainConfigs.statistics &&
-          state.mainConfigs.statistics.telegram_commands
-            ? state.mainConfigs.statistics.telegram_commands
-            : [],
-      };
-    },
-
-    customers(state) {
-      return {
-        types:
-          state.mainConfigs &&
-          state.mainConfigs.customers &&
-          state.mainConfigs.customers.types
-            ? state.mainConfigs.customers.types
-            : [],
-        reportTypes:
-          state.mainConfigs &&
-          state.mainConfigs.customers &&
-          state.mainConfigs.customers.reportTypes
-            ? state.mainConfigs.customers.reportTypes
-            : [],
-        counterpartyDepositingTypes:
-          state.mainConfigs &&
-          state.mainConfigs.customers &&
-          state.mainConfigs.customers.counterpartyDepositingTypes
-            ? state.mainConfigs.customers.counterpartyDepositingTypes
-            : [],
-        encashmentTypes:
-          state.mainConfigs &&
-          state.mainConfigs.customers &&
-          state.mainConfigs.customers.encashmentTypes
-            ? state.mainConfigs.customers.encashmentTypes
-            : [],
-        activeCustomers:
-          state.mainConfigs &&
-          state.mainConfigs.customers &&
-          state.mainConfigs.customers.activeCustomers
-            ? state.mainConfigs.customers.activeCustomers
-            : [],
-        salaryCustomers:
-          state.mainConfigs &&
-          state.mainConfigs.customers &&
-          state.mainConfigs.customers.salaryCustomers
-            ? state.mainConfigs.customers.salaryCustomers
-            : [],
-        responsibilityTypes:
-          state.mainConfigs &&
-          state.mainConfigs.customers &&
-          state.mainConfigs.customers.responsibilityTypes
-            ? state.mainConfigs.customers.responsibilityTypes
-            : [],
-        expenseGroups:
-          state.mainConfigs &&
-          state.mainConfigs.customers &&
-          state.mainConfigs.customers.expenseGroups
-            ? state.mainConfigs.customers.expenseGroups
-            : [],
-      };
-    },
-
-    statements(state) {
-      return {
-        statuses:
-          state.mainConfigs &&
-          state.mainConfigs.statements &&
-          state.mainConfigs.statements.statuses
-            ? state.mainConfigs.statements.statuses
-            : [],
       };
     },
 
@@ -230,13 +99,13 @@ export const syncConfigs = defineStore("syncConfigs", {
       };
     },
 
-    operations(state) {
+    orders(state) {
       return {
         types:
           state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.types
-            ? state.mainConfigs.operations.types
+          state.mainConfigs.orders &&
+          state.mainConfigs.orders.types
+            ? state.mainConfigs.orders.types
             : [],
 
         statuses:
@@ -246,130 +115,11 @@ export const syncConfigs = defineStore("syncConfigs", {
             ? state.mainConfigs.operations.statuses
             : [],
 
-        allOnlyTypes:
+        payment_methods:
           state.mainConfigs &&
           state.mainConfigs.operations &&
-          state.mainConfigs.operations.allOnlyTypes
-            ? state.mainConfigs.operations.allOnlyTypes
-            : [],
-
-        operationTypes:
-          state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.operationTypes
-            ? state.mainConfigs.operations.operationTypes
-            : [],
-
-        operationIndexTypes:
-          state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.operationIndexTypes
-            ? state.mainConfigs.operations.operationIndexTypes
-            : [],
-
-        depositingCounterpartyTypes:
-          state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.depositingCounterpartyTypes
-            ? state.mainConfigs.operations.depositingCounterpartyTypes
-            : [],
-
-        cryptocurrencyTypes:
-          state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.cryptocurrencyTypes
-            ? state.mainConfigs.operations.cryptocurrencyTypes
-            : [],
-
-        cryptocurrencyIndexTypes:
-          state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.cryptocurrencyIndexTypes
-            ? state.mainConfigs.operations.cryptocurrencyIndexTypes
-            : [],
-
-        worldPermutationTypes:
-          state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.worldPermutationTypes
-            ? state.mainConfigs.operations.worldPermutationTypes
-            : [],
-
-        worldPermutationIndexTypes:
-          state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.worldPermutationIndexTypes
-            ? state.mainConfigs.operations.worldPermutationIndexTypes
-            : [],
-
-        dealTypes:
-          state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.dealTypes
-            ? state.mainConfigs.operations.dealTypes
-            : [],
-
-        dealIndexTypes:
-          state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.dealIndexTypes
-            ? state.mainConfigs.operations.dealIndexTypes
-            : [],
-
-        cashboxTypes:
-          state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.cashboxTypes
-            ? state.mainConfigs.operations.cashboxTypes
-            : [],
-
-        cashboxIndexTypes:
-          state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.cashboxIndexTypes
-            ? state.mainConfigs.operations.cashboxIndexTypes
-            : [],
-
-        depositingTypes:
-          state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.depositingTypes
-            ? state.mainConfigs.operations.depositingTypes
-            : [],
-
-        usdtAlignmentTypes:
-          state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.usdtAlignmentTypes
-            ? state.mainConfigs.operations.usdtAlignmentTypes
-            : [],
-
-        mobileTypes:
-          state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.mobileTypes
-            ? state.mainConfigs.operations.mobileTypes
-            : [],
-
-        adminLogTypes:
-          state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.adminLogTypes
-            ? state.mainConfigs.operations.adminLogTypes
-            : [],
-
-        coordinatorTypes:
-          state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.coordinatorTypes
-            ? state.mainConfigs.operations.coordinatorTypes
-            : [],
-
-        userScoreTypes:
-          state.mainConfigs &&
-          state.mainConfigs.operations &&
-          state.mainConfigs.operations.userScoreTypes
-            ? state.mainConfigs.operations.userScoreTypes
+          state.mainConfigs.operations.payment_methods
+            ? state.mainConfigs.operations.payment_methods
             : [],
       };
     },
@@ -382,26 +132,8 @@ export const syncConfigs = defineStore("syncConfigs", {
     //   };
     // },
 
-    approveReasons(state) {
-      return (state.mainConfigs && state.mainConfigs.approveReasons) || [];
-    },
-
-    approveReasonMap(state) {
-      const list =
-        (state.mainConfigs && state.mainConfigs.approveReasons) || [];
-      const map = {};
-      for (let i = 0; i < list.length; i++) {
-        const r = list[i];
-        // защитимся от кривых данных
-        if (r && r.key != null) {
-          map[String(r.key)] = r.label != null ? String(r.label) : "";
-        }
-      }
-      return map;
-    },
-
-    approveLabelByKey() {
-      return (key) => (key ? this.approveReasonMap[key] || "" : "");
+    countries(state) {
+      return (state.mainConfigs && state.mainConfigs.countries) || [];
     },
 
     users(state) {
@@ -412,16 +144,11 @@ export const syncConfigs = defineStore("syncConfigs", {
           state.mainConfigs.users.roles
             ? state.mainConfigs.users.roles
             : [],
-      };
-    },
-
-    instructions(state) {
-      return {
-        types:
+        kyc_statuses:
           state.mainConfigs &&
-          state.mainConfigs.instructions &&
-          state.mainConfigs.instructions.types
-            ? state.mainConfigs.instructions.types
+          state.mainConfigs.users &&
+          state.mainConfigs.users.kyc_statuses
+            ? state.mainConfigs.users.kyc_statuses
             : [],
       };
     },
@@ -435,12 +162,6 @@ export const syncConfigs = defineStore("syncConfigs", {
             ? state.mainConfigs.authentication.statuses
             : [],
       };
-    },
-
-    auditOperationsCount(state) {
-      return state.mainConfigs && state.mainConfigs.auditOperationsCount
-        ? state.mainConfigs.auditOperationsCount
-        : [];
     },
   },
 });

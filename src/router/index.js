@@ -57,6 +57,36 @@ const router = createRouter({
       },
     },
     {
+      path: "/clients",
+      name: "clients.index",
+      component: () => import("../views/clients/IndexPage.vue"),
+      meta: {
+        title: "Clients",
+        layout: "default",
+        requiresAuth: true,
+      },
+    },
+    {
+      path: "/clients/create",
+      name: "clients.create",
+      component: () => import("../views/clients/CreatePage.vue"),
+      meta: {
+        title: "Create Client",
+        layout: "default",
+        requiresAuth: true,
+      },
+    },
+    {
+      path: "/clients/:id/edit",
+      name: "clients.edit",
+      component: () => import("../views/clients/EditPage.vue"),
+      meta: {
+        title: "Edit Client",
+        layout: "default",
+        requiresAuth: true,
+      },
+    },
+    {
       path: "/telegram-messages",
       name: "telegram-messages.index",
       component: () => import("../views/telegram-messages/IndexPage.vue"),

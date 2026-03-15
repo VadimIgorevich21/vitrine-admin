@@ -41,12 +41,12 @@
       <div class="wrap-item mt-4 dark:text-gray-500">
         <div v-if="is('admin') || can('test')" class="item mt-3">
           <router-link
-            to="/"
+            to="/clients"
             exact
             class="w-full flex text-left rounded-md box-border py-3 px-1 hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             <span class="mr-3 text-xl"><Icon icon="bi:activity" /></span>
-            <span class="w-full"> Пользователи </span>
+            <span class="w-full"> Клиенты </span>
           </router-link>
         </div>
         <div class="item mt-3">

@@ -10,6 +10,9 @@ export default {
   getUsers(page, payload) {
     return API.apiClient.get(`/users/?page=${page}`, payload);
   },
+  getClients(page, payload) {
+    return API.apiClient.get(`/clients/?page=${page}`, payload);
+  },
   getTelegramClientUsers(page, payload) {
     return API.apiClient.get(`/telegram-clients-list/?page=${page}`, payload);
   },
