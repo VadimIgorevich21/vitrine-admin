@@ -96,6 +96,15 @@
       <template #item-created_at="{ item }">
         {{ $filters.formatDateTime(item.created_at) }}
       </template>
+
+      <template #item-crypto_amount_info="{ item }">
+        {{ item.crypto_amount_info?.amount }}
+        {{ item.crypto_amount_info?.currency_code }}
+      </template>
+      <template #item-fiat_amount_info="{ item }">
+        {{ item.fiat_amount_info?.amount }}
+        {{ item.fiat_amount_info?.currency_code }}
+      </template>
       <template #item-status="{ item }">
         <StatusAttribute :order="item"></StatusAttribute>
       </template>
@@ -171,6 +180,8 @@ export default {
         value: "user_id",
       },
       { text: "Направление", value: "direction" },
+      { text: "Сумма крипты", value: "crypto_amount_info" },
+      { text: "Сумма фиата", value: "fiat_amount_info" },
       { text: "Статус", value: "status" },
       { text: "Дата", value: "created_at", custom_link: true },
       {
