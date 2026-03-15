@@ -37,4 +37,10 @@ export default {
   deleteUser(userId) {
     return API.apiClient.delete(`/users/${userId}`);
   },
+  async enableClient(id) {
+    return await API.apiClient.post(`/users/${id}/enable`);
+  },
+  async disableClient(id) {
+    return await API.apiClient.post(`/users/${id}/disable`);
+  },
 };

@@ -76,7 +76,8 @@
                 </td>
 
                 <td class="px-6 py-4">
-                  {{ client.has_access ? "Active" : "Inactive" }}
+                  <span v-if="client.has_access"> Active </span>
+                  <span v-else class="text-red-500"> Blocked </span>
                 </td>
                 <td class="px-6 py-4">
                   <span v-if="!client.activity_at" class="text-muted"
@@ -102,13 +103,20 @@
                         <i class="fe fe-edit-2 mr-2" /> Редактировать
                       </router-link>
                       <button
-                        v-if="
-                          client.actions && client.actions.includes('delete')
-                        "
-                        class="dropdown-dots-item text-red-400"
-                        @click.prevent="deleteClient(client)"
+                        v-if="client.actions.includes('enable')"
+                        class="dropdown-dots-item"
+                        @click.prevent="enableClient(client)"
                       >
-                        <i class="fe fe-trash mr-2" /> Удалить
+                        <i class="fe fe-eye mr-2" />
+                        Включить
+                      </button>
+                      <button
+                        v-if="client.actions.includes('disable')"
+                        class="dropdown-dots-item text-danger"
+                        @click.prevent="disableClient(client)"
+                      >
+                        <i class="fe fe-eye-off mr-2" />
+                        Отключить
                       </button>
                     </template>
                   </dropdown-dots-component>
@@ -142,6 +150,7 @@ import DropdownDotsComponent from "@/components/DropdownDotsComponent.vue";
 import UserService from "@/services/UserService";
 import { identity, pickBy } from "lodash";
 import KycStatusAttribute from "@/views/clients/partial/KycStatusAttribute.vue";
+import { notify } from "@kyvg/vue3-notification";
 
 export default {
   components: {
@@ -233,6 +242,58 @@ export default {
           identity
         ),
       });
+    },
+
+    async enableClient(client) {
+      if (confirm("Вы действительно хотите включить доступ?")) {
+        try {
+          const response = await UserService.enableClient(client.id);
+
+          this.clients[this.clients.indexOf(client)] = response.data.data;
+
+          notify({
+            group: "default",
+            type: "vue-notification success",
+            duration: 3000,
+            title: "Info",
+            text: "Доступ успешно включен",
+          });
+        } catch (e) {
+          notify({
+            group: "default",
+            type: "error",
+            duration: 3000,
+            title: "Error",
+            text: "Ошибка при выполнении запроса",
+          });
+        }
+      }
+    },
+
+    async disableClient(client) {
+      if (confirm("Вы действительно хотите отключить доступ?")) {
+        try {
+          const response = await UserService.disableClient(client.id);
+
+          this.clients[this.clients.indexOf(client)] = response.data.data;
+
+          notify({
+            group: "default",
+            type: "vue-notification success",
+            duration: 3000,
+            title: "Info",
+            text: "Доступ успешно отключен",
+          });
+        } catch (e) {
+          notify({
+            group: "default",
+            type: "error",
+            duration: 3000,
+            title: "Error",
+            text: "Ошибка при выполнении запроса",
+          });
+        }
+      }
     },
   },
 };
