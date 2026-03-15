@@ -17,10 +17,10 @@ const router = createRouter({
     },
     {
       path: "/",
-      name: "Users",
-      component: () => import("../views/users/IndexPage.vue"),
+      name: "Orders",
+      component: () => import("../views/orders/IndexPage.vue"),
       meta: {
-        title: "Users",
+        title: "Orders",
         layout: "default",
         requiresAuth: true,
         noQueryRecreate: true,
@@ -52,6 +52,26 @@ const router = createRouter({
       component: () => import("../views/users/EditPage.vue"),
       meta: {
         title: "Edit User",
+        layout: "default",
+        requiresAuth: true,
+      },
+    },
+    {
+      path: "/orders",
+      name: "orders.index",
+      component: () => import("../views/orders/IndexPage.vue"),
+      meta: {
+        title: "Orders",
+        layout: "default",
+        requiresAuth: true,
+      },
+    },
+    {
+      path: "/orders/:id/edit",
+      name: "orders.edit",
+      component: () => import("../views/orders/EditPage.vue"),
+      meta: {
+        title: "Edit Order",
         layout: "default",
         requiresAuth: true,
       },

@@ -41,6 +41,16 @@
       <div class="wrap-item mt-4 dark:text-gray-500">
         <div v-if="is('admin') || can('test')" class="item mt-3">
           <router-link
+            to="/orders"
+            exact
+            class="w-full flex text-left rounded-md box-border py-3 px-1 hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
+            <span class="mr-3 text-xl"><Icon icon="bx:dollar-circle" /></span>
+            <span class="w-full"> Заказы </span>
+          </router-link>
+        </div>
+        <div v-if="is('admin') || can('test')" class="item mt-3">
+          <router-link
             to="/clients"
             exact
             class="w-full flex text-left rounded-md box-border py-3 px-1 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -49,7 +59,7 @@
             <span class="w-full"> Клиенты </span>
           </router-link>
         </div>
-        <div class="item mt-3">
+        <div class="!hidden item mt-3">
           <menu-accordion>
             <template #icon><Icon icon="bi:activity" /></template>
             <template #title>
@@ -80,10 +90,10 @@
           </menu-accordion>
         </div>
       </div>
-      <p class="font-medium text-gray-400 mt-4 dark:text-gray-600">
+      <p class="!hidden font-medium text-gray-400 mt-4 dark:text-gray-600">
         Разделитель
       </p>
-      <div class="wrap-item mt-4 dark:text-gray-500">
+      <div class="!hidden wrap-item mt-4 dark:text-gray-500">
         <div class="item mt-3">
           <router-link
             to="/settings"
@@ -97,10 +107,10 @@
           </router-link>
         </div>
       </div>
-      <p class="font-medium text-gray-400 mt-4 dark:text-gray-600">
+      <p class="!hidden font-medium text-gray-400 mt-4 dark:text-gray-600">
         Дополнительно
       </p>
-      <div class="wrap-item mt-4 dark:text-gray-500">
+      <div class="!hidden wrap-item mt-4 dark:text-gray-500">
         <div v-if="authStore.identity.id === 1" class="item mt-3">
           <router-link
             to="/users/1/edit"

@@ -51,6 +51,7 @@
                 scope="col"
                 class="px-2 py-3 cursor-pointer"
                 :class="header.class"
+                :width="header.width"
                 @click="edit(item, header)"
               >
                 <slot :name="'item-' + header.value" :item="item">{{
