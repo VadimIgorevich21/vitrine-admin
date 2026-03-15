@@ -19,13 +19,17 @@
                 </div>
                 <div>
                   <span class="font-bold">Сумма крипты:</span>
-                  {{ order.crypto_amount_info?.amount }}
-                  {{ order.crypto_amount_info?.currency_code }}
+                  {{ cryptoAmount }}
+                  {{ cryptoCurrency }}
                 </div>
                 <div>
                   <span class="font-bold">Сумма фиата:</span>
-                  {{ order.fiat_amount_info?.amount }}
-                  {{ order.fiat_amount_info?.currency_code }}
+                  {{ fiatAmount }}
+                  {{ fiatCurrency }}
+                </div>
+                <div>
+                  <span class="font-bold">Тариф:</span>
+                  {{ exchangeRate }}
                 </div>
               </div>
             </div>
@@ -177,6 +181,21 @@ export default {
     canComplete() {
       return this.orderInfo.status === "processing";
     },
+    cryptoAmount() {
+      return this.formatAmount(this.order.crypto_amount_info);
+    },
+    cryptoCurrency() {
+      return this.order.crypto_amount_info?.currency_code || "";
+    },
+    fiatAmount() {
+      return this.formatAmount(this.order.fiat_amount_info);
+    },
+    fiatCurrency() {
+      return this.order.fiat_amount_info?.currency_code || "";
+    },
+    exchangeRate() {
+      return this.formatAmount(this.order.rate_info);
+    },
   },
 
   created() {
@@ -251,6 +270,27 @@ export default {
     // },
     onChangeStatus(value) {
       this.orderInfo.status = value?.key ?? null;
+    },
+    formatAmount(info) {
+      if (!info) return "0.00";
+      const val =
+        info.amount !== undefined && info.amount !== null
+          ? info.amount
+          : info.rate;
+      if (val === undefined || val === null) return "0.00";
+
+      const amountValue = typeof val === "string" ? parseFloat(val) : val;
+      const precision =
+        info.precision !== undefined && info.precision !== null
+          ? parseInt(info.precision)
+          : 2;
+
+      // Use en-US locale for consistent number formatting (period as decimal separator)
+      // while respecting the dynamic precision and removing redundant trailing zeros.
+      return amountValue.toLocaleString("en-US", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: precision,
+      });
     },
   },
 };

@@ -98,11 +98,11 @@
       </template>
 
       <template #item-crypto_amount_info="{ item }">
-        {{ item.crypto_amount_info?.amount }}
+        {{ formatAmount(item.crypto_amount_info) }}
         {{ item.crypto_amount_info?.currency_code }}
       </template>
       <template #item-fiat_amount_info="{ item }">
-        {{ item.fiat_amount_info?.amount }}
+        {{ formatAmount(item.fiat_amount_info) }}
         {{ item.fiat_amount_info?.currency_code }}
       </template>
       <template #item-status="{ item }">
@@ -311,6 +311,27 @@ export default {
       this.sortedColumn = sortedColumn;
       this.direction = direction;
       this.getOrders();
+    },
+    formatAmount(info) {
+      if (!info) return "0.00";
+      const val =
+        info.amount !== undefined && info.amount !== null
+          ? info.amount
+          : info.rate;
+      if (val === undefined || val === null) return "0.00";
+
+      const amountValue = typeof val === "string" ? parseFloat(val) : val;
+      const precision =
+        info.precision !== undefined && info.precision !== null
+          ? parseInt(info.precision)
+          : 2;
+
+      // Use en-US locale for consistent number formatting (period as decimal separator)
+      // while respecting the dynamic precision and removing redundant trailing zeros.
+      return amountValue.toLocaleString("en-US", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: precision,
+      });
     },
     pushQueryParams(query) {
       this.$router.push({
