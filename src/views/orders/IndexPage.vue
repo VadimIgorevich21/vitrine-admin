@@ -8,23 +8,42 @@
       :message-for-empty-table="'Заказов не найдено.'"
       :resource-url="'orders'"
       @sorted="sortOrders"
-      @click-item="onClickItem"
     >
       <template #header>
-        <div class="row">
-          <div class="col-lg-12 mt-2">
-            <datepicker
-              v-model="period"
-              timezone="Europe/Kiev"
-              auto-apply
-              format="dd.MM.yyyy"
-              class="dark:dp__theme_dark"
-              range
-              :input-props="{
-                class: 'form-control form-control-sm',
-                placeholder: 'дд.мм.гггг - дд.мм.гггг',
-              }"
-            />
+        <div class="card-header h-auto pb-3">
+          <div class="row align-items-center">
+            <div class="col-lg-6">
+              <div class="input-group input-group-merge input-group-sm">
+                <!-- Input -->
+                <input
+                  ref="searchInput"
+                  v-model="searchText"
+                  type="search"
+                  class="form-control form-control-prepended list-search dark:bg-gray-800 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-300 border block rounded-md text-gray-500 dark:text-gray-400 focus:border-blue-500 dark:focus:border-blue-500"
+                  placeholder="Поиск"
+                  @keyup.enter="applySearch"
+                  @input="onEmptySearchInput"
+                />
+
+                <!-- Prepend -->
+                <div class="input-group-prepend">
+                  <div
+                    class="input-group-text bg-gray-100 dark:bg-gray-500 text-gray-700 dark:text-gray-400 border border-gray-200 dark:border-gray-300 focus:border-blue-500"
+                  >
+                    <span class="fe fe-search" />
+                  </div>
+                </div>
+                <!-- 🔹 Кнопка справа -->
+                <div class="input-group-append">
+                  <button
+                    class="px-2 bg-blue-500 text-white cursor-pointer"
+                    @click="applySearch"
+                  >
+                    Поиск
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </template>
@@ -78,12 +97,12 @@ export default {
     DropdownDotsComponent,
     WrapperComponent,
     GridComponent,
-    Datepicker,
   },
   data: () => ({
     loading: false,
     meta: null,
-    operations: [],
+    searchText: null,
+    orders: [],
 
     headers: [
       { text: "#", value: "id" },
@@ -94,11 +113,6 @@ export default {
       { text: "Статус", value: "status" },
       { text: "Дата", value: "created_at" },
       { text: "", value: "actions", width: "1%" },
-    ],
-    // period: [moment().format("YYYY-MM-01"), moment().format("YYYY-MM-DD")],
-    period: [
-      dayjs().tz("Europe/Kiev").format("YYYY-MM-01"),
-      dayjs().tz("Europe/Kiev").format("YYYY-MM-DD"),
     ],
 
     sortedColumn: null,
@@ -161,6 +175,8 @@ export default {
     },
   },
   async created() {
+    this.searchText = this.$route.query.search ?? null;
+
     const { date_from, date_to } = this.$route.query;
 
     const isValidDate = (d) => d && moment(d, "YYYY-MM-DD", true).isValid();
@@ -178,6 +194,8 @@ export default {
       const response = await API.apiClient.get("/orders", {
         params: pickBy(
           {
+            query: this.searchText,
+
             date_from: this.period?.[0]
               ? moment(this.period[0]).format("YYYY-MM-DD")
               : this.$route.query.date_from ?? null,
@@ -199,7 +217,7 @@ export default {
 
       this.loading = false;
     },
-    sortOperations(sortedColumn, direction) {
+    sortOrders(sortedColumn, direction) {
       this.sortedColumn = sortedColumn;
       this.direction = direction;
       this.getOrders();
@@ -214,6 +232,23 @@ export default {
           identity
         ),
       });
+    },
+    async applySearch() {
+      const value = this.searchText?.trim() || null;
+
+      this.pushQueryParams({
+        search: value,
+        page: 1,
+      });
+      // await this.getOperations();
+    },
+    async onEmptySearchInput() {
+      if (!this.searchText) {
+        this.pushQueryParams({
+          search: null,
+          page: 1,
+        });
+      }
     },
     cancelOrder(order) {
       alert("cancel order");
