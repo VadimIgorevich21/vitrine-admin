@@ -170,6 +170,7 @@ export default {
         text: "Клиент",
         value: "user_id",
       },
+      { text: "Направление", value: "direction" },
       { text: "Статус", value: "status" },
       { text: "Дата", value: "created_at", custom_link: true },
       {
