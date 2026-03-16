@@ -293,6 +293,7 @@ export default {
             page: this.currentPage,
             status: this.$route.query.status,
             user_id: this.$route.query.user_id,
+            search: this.searchText,
           },
           identity
         ),

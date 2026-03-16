@@ -74,8 +74,8 @@ export default {
 
 /* Colors based on requirements and common design patterns */
 .status-completed {
-  background-color: #ecfdf3;
-  color: #027a48;
+  background-color: #027a48;
+  color: #ffffff;
 }
 
 .status-error {
