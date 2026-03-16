@@ -2,44 +2,40 @@
   <span class="whitespace-nowrap text-center">
     <span
       v-if="order.status === 'completed'"
-      class="status-badge status-completed bg-blue-700 rounded-md text-xs py-1 px-4 text-white text-xs"
+      class="status-badge status-completed"
       >Выполнен</span
     >
     <span
       v-else-if="order.status === 'pending'"
-      class="status-badge status-pending bg-green-700 rounded-md py-1 px-4 text-white text-xs"
+      class="status-badge status-pending"
       >Ожидание оплаты</span
     >
     <span
       v-else-if="order.status === 'verifying'"
-      class="status-badge status-verifying bg-yellow-200 rounded-md py-1 px-4 text-yellow-700 text-xs"
+      class="status-badge status-verifying"
       >Проверка оплаты</span
     >
-    <span
-      v-else-if="order.status === 'paid'"
-      class="status-badge status-paid bg-yellow-200 rounded-md py-1 px-4 text-yellow-700 text-xs"
+    <span v-else-if="order.status === 'paid'" class="status-badge status-paid"
       >Оплачен</span
     >
     <span
       v-else-if="order.status === 'processing'"
-      class="status-badge status-processing bg-yellow-200 rounded-md py-1 px-4 text-yellow-700 text-xs"
+      class="status-badge status-processing"
       >В обработке</span
     >
 
     <span
       v-else-if="order.status === 'expired'"
-      class="status-badge status-expired bg-yellow-200 rounded-md py-1 px-4 text-yellow-700 text-xs"
+      class="status-badge status-expired"
       >Просрочен</span
     >
 
-    <span
-      v-else-if="order.status === 'error'"
-      class="status-badge status-error bg-yellow-200 rounded-md py-1 px-4 text-yellow-700 text-xs"
+    <span v-else-if="order.status === 'error'" class="status-badge status-error"
       >Ошибка платежа</span
     >
     <span
       v-else-if="order.status === 'cancelled'"
-      class="status-badge status-cancelled bg-red-700 rounded-md py-1 px-4 text-white text-xs"
+      class="status-badge status-cancelled"
       >Отменен (после оплаты)</span
     >
   </span>
