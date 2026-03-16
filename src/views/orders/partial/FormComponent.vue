@@ -31,6 +31,10 @@
                   <span class="font-bold">Тариф:</span>
                   {{ exchangeRate }}
                 </div>
+                <div>
+                  <span class="font-bold">Fee:</span>
+                  {{ commissionAmount }} {{ fiatCurrency }}
+                </div>
               </div>
             </div>
             <div class="form-group-row row">
@@ -195,6 +199,12 @@ export default {
     },
     exchangeRate() {
       return this.formatAmount(this.order.rate_info);
+    },
+    commissionAmount() {
+      return this.order.commission_amount.toLocaleString("en-US", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      });
     },
   },
 
