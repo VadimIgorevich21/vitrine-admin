@@ -142,7 +142,7 @@ export default {
     const configStore2 = syncConfigs();
     const users = configStore2.users;
     const customers = configStore2.customers;
-    return { roles: users.roles, customerTypes: customers.types };
+    return { roles: users.roles };
   },
 
   data: () => ({
