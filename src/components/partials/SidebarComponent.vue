@@ -5,22 +5,22 @@
   >
     <!-- sidebar head -->
     <div
-      class="sidebar-head px-6 py-8 flex items-center justify-center bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700/50 shadow-sm mb-4"
+      class="sidebar-head px-5 py-5 flex items-center justify-start bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700/50 shadow-sm mb-2"
     >
       <router-link
         to="/"
         exact
-        class="hover:scale-105 transition-transform duration-300"
+        class="hover:opacity-80 transition-opacity duration-300"
       >
         <img
           src="../../assets/img/logo.png"
           alt="Logo"
-          style="width: 140px"
+          style="width: 120px"
           class="logo opacity-90"
         />
       </router-link>
       <button
-        class="lg:hidden absolute top-6 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+        class="lg:hidden absolute top-5 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
         @click="sidebarToggle"
       >
         <Icon icon="heroicons:x-mark" class="w-6 h-6" />
@@ -28,12 +28,12 @@
     </div>
 
     <!-- sidebar navigation -->
-    <div class="flex-grow px-3 space-y-1.5">
+    <div class="flex-grow px-2 space-y-0.5">
       <div v-if="is('admin') || can('test')">
         <router-link
           to="/orders"
           exact
-          class="nav-link-custom group flex !flex-row items-center px-4 py-3 text-sm font-medium text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all border border-transparent"
+          class="nav-link-custom group flex !flex-row items-center px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all border border-transparent"
           active-class="!bg-white dark:!bg-gray-800 !text-indigo-600 dark:!text-indigo-400 !border-gray-200 dark:!border-gray-700 shadow-sm"
         >
           <Icon
@@ -47,7 +47,7 @@
         <router-link
           to="/clients"
           exact
-          class="nav-link-custom group flex !flex-row items-center px-4 py-3 text-sm font-medium text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all border border-transparent"
+          class="nav-link-custom group flex !flex-row items-center px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all border border-transparent"
           active-class="!bg-white dark:!bg-gray-800 !text-indigo-600 dark:!text-indigo-400 !border-gray-200 dark:!border-gray-700 shadow-sm"
         >
           <Icon icon="heroicons:users" class="w-5 h-5 mr-3 flex-shrink-0" />
@@ -58,12 +58,12 @@
 
     <!-- sidebar footer -->
     <div
-      class="p-4 mt-auto border-t border-gray-200 dark:border-gray-800 space-y-1 bg-gray-50/80 dark:bg-gray-900/50"
+      class="p-2 mt-auto border-t border-gray-200 dark:border-gray-800 space-y-0.5 bg-gray-50/80 dark:bg-gray-900/50"
     >
       <div v-if="is('admin')">
         <router-link
           to="/users"
-          class="nav-link-custom group flex !flex-row items-center px-4 py-3 text-sm font-medium text-gray-500 dark:text-gray-400 rounded-lg hover:bg-white dark:hover:bg-gray-800 transition-all border border-transparent"
+          class="nav-link-custom group flex !flex-row items-center px-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 rounded-lg hover:bg-white dark:hover:bg-gray-800 transition-all border border-transparent"
           active-class="!bg-white dark:!bg-gray-800 !text-indigo-600 dark:!text-indigo-400 !border-gray-200 dark:!border-gray-700 shadow-sm"
         >
           <Icon
@@ -76,7 +76,7 @@
       <div>
         <router-link
           to="/settings/change-password"
-          class="nav-link-custom group flex !flex-row items-center px-4 py-3 text-sm font-medium text-gray-500 dark:text-gray-400 rounded-lg hover:bg-white dark:hover:bg-gray-800 transition-all border border-transparent"
+          class="nav-link-custom group flex !flex-row items-center px-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 rounded-lg hover:bg-white dark:hover:bg-gray-800 transition-all border border-transparent"
           active-class="!bg-white dark:!bg-gray-800 !text-indigo-600 dark:!text-indigo-400 !border-gray-200 dark:!border-gray-700 shadow-sm"
         >
           <Icon
@@ -87,7 +87,7 @@
         </router-link>
       </div>
       <button
-        class="w-full group flex !flex-row items-center px-4 py-3 text-sm font-medium text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-all"
+        class="w-full group flex !flex-row items-center px-4 py-2 text-sm font-medium text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-all"
         @click="authStore.logout"
       >
         <Icon

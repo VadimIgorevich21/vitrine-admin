@@ -31,13 +31,13 @@
           >
             <Icon icon="heroicons:bars-3-bottom-left" class="w-6 h-6" />
           </button>
-          <span class="ml-4 font-bold text-gray-800 dark:text-gray-200"
-            >Vitrine Admin</span
+          <span class="!hidden ml-4 font-bold text-gray-800 dark:text-gray-200"
+            >Admin</span
           >
         </div>
 
         <!-- Scrollable Content Area -->
-        <div class="flex-grow p-4 lg:p-8">
+        <div class="flex-grow">
           <slot />
         </div>
 
