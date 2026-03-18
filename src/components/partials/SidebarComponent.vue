@@ -8,8 +8,12 @@
           class="text-2xl font-normal text-gray-800 dark:text-gray-500"
           translate="no"
         >
-          <img src="../../assets/img/logo.svg" alt="Logo" class="logo" />
-          Windzo<span class="text-primary">.</span>
+          <img
+            src="../../assets/img/logo.png"
+            alt="Logo"
+            style="width: 150px"
+            class="logo"
+          />
           <span
             class="bg-gray-700 absolute mt-2 dark:block hidden rounded-md py-1 px-2 text-xs text-gray-200"
             >Dark mode</span

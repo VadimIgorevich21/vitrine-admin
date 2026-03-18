@@ -6,8 +6,12 @@
     >
       <div class="w-full max-w-sm p-6 bg-white rounded-md shadow-md">
         <div class="flex items-center justify-center">
-          <img src="../../assets/img/logo.svg" alt="Logo" class="logo mr-3" />
-          <span class="text-2xl font-semibold text-gray-700">Вход</span>
+          <img
+            src="../../assets/img/logo.png"
+            style="width: 150px"
+            alt="Logo"
+            class="logo mr-3"
+          />
         </div>
         <p class="text-muted text-center mt-5 mb-5">
           Используйте ваш электронный адрес и пароль для входа в систему.
