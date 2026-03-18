@@ -10,8 +10,18 @@
               <div class="font-size-20 font-bold">Детали заказа</div>
               <div class="border-2 border-gray-300 bg-gray-200 p-1">
                 <div>
-                  <span class="font-bold">Пользователь:</span>
+                  <span class="font-bold">Клиент:</span>
                   {{ order.user.name }}
+                </div>
+                <div>
+                  <span class="font-bold">Кошелек клиента:</span>
+                  {{ order.wallet_address }}
+                  <button
+                    class="operation-preview-copy-info-link"
+                    @click.prevent="copyText(order.wallet_address)"
+                  >
+                    <i class="fe fe-copy"></i>
+                  </button>
                 </div>
                 <div>
                   <span class="font-bold">Направление:</span>
@@ -122,6 +132,8 @@ import SubmitButton from "../../../components/SubmitButton.vue";
 import "@vuepic/vue-datepicker/dist/main.css";
 import { ReworkedMultiselect } from "@/components/reworked-multiselect";
 import HasErrorVisibility from "@/components/HasErrorVisibility.vue";
+import { copyText } from "vue3-clipboard";
+import { notify } from "@kyvg/vue3-notification";
 
 export default {
   components: {
@@ -300,6 +312,23 @@ export default {
       return amountValue.toLocaleString("en-US", {
         minimumFractionDigits: 0,
         maximumFractionDigits: precision,
+      });
+    },
+    copyText(string) {
+      let message = string.replace(/<br ?\/?>/g, "\n");
+      copyText(message, undefined, (error) => {
+        if (error) {
+          console.log(error);
+        } else {
+          notify({
+            group: "default",
+            // classes: "vue-notification-template vue-notification success",
+            type: "vue-notification success",
+            duration: 3000,
+            title: "Info",
+            text: "Скопировано",
+          });
+        }
       });
     },
   },
