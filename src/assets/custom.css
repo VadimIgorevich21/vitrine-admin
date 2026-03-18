@@ -440,19 +440,19 @@ input, textarea, select {
 }
 
 .plus-summa {
-//background: rgb(82, 196, 26);
+    /* background: rgb(82, 196, 26); */
     background: rgb(82, 196, 26);
     color: #fff !important;
 }
 
 .minus-summa {
-//background: rgb(255, 77, 79);
+    /* background: rgb(255, 77, 79); */
     background: rgb(255, 110, 111);
     color: #fff !important;
 }
 
 .default-summa {
-//background: rgb(255, 77, 79);
+    /* background: rgb(255, 77, 79); */
     background: rgb(143, 143, 143);
     color: #fff !important;
 }
@@ -1351,4 +1351,68 @@ input, textarea, select {
 .simple-action-button.disabled-link {
     border-color: rgb(215, 215, 215) !important;
     color: rgb(215, 215, 215) !important;
+}
+/* MODERN UI OVERRIDES */
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="email"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+textarea,
+select {
+    @apply rounded-lg border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700 transition-all duration-200 outline-none p-2.5 !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    @apply border-indigo-500 ring-4 ring-indigo-500/10 dark:ring-indigo-500/20 !important;
+}
+
+.btn-primary,
+.green-button,
+.info-button {
+    @apply rounded-lg font-semibold transition-all duration-200 active:scale-[0.98] shadow-sm !important;
+}
+
+.green-button {
+    background-color: #10b981 !important; /* Emerald 500 */
+}
+
+.green-button:hover {
+    background-color: #059669 !important; /* Emerald 600 */
+    @apply shadow-emerald-200/50 dark:shadow-none !important;
+}
+
+.info-button {
+    background-color: #6366f1 !important; /* Indigo 500 */
+}
+
+.info-button:hover {
+    background-color: #4f46e5 !important; /* Indigo 600 */
+    @apply shadow-indigo-200/50 dark:shadow-none !important;
+}
+
+.project-styled-grid-table tr:hover {
+    background-color: theme('colors.slate.50') !important;
+}
+
+.dark .project-styled-grid-table tr:hover {
+    background-color: theme('colors.slate.800') !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-slate-200 dark:bg-slate-700 rounded-full hover:bg-slate-300 dark:hover:bg-slate-600;
 }

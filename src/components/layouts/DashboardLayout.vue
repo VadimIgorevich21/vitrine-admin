@@ -2,7 +2,7 @@
   <div>
     <!-- App Container -->
     <div
-      class="flex h-screen bg-packed font-lexend dark:bg-gray-950 overflow-hidden transition-colors duration-300"
+      class="flex h-screen bg-slate-50/50 dark:bg-gray-950 overflow-hidden transition-colors duration-300"
     >
       <!-- Sidebar Container -->
       <div

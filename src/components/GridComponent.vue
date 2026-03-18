@@ -1,76 +1,100 @@
 <template>
   <div
-    class="mt-2 bg-white dark:bg-gray-800 p-5 w-full rounded-md box-border shadow"
+    class="mt-4 bg-white dark:bg-slate-800 w-full rounded-xl shadow-sm border border-slate-200/60 dark:border-slate-700/50 overflow-hidden transition-all duration-300"
   >
-    <div v-if="!!$slots['header']" class="card-header h-auto d-block pb-3">
+    <div
+      v-if="!!$slots['header']"
+      class="px-6 py-4 border-b border-slate-100 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/50"
+    >
       <slot name="header" />
     </div>
 
-    <perfect-scrollbar>
-      <div class="wrapping-table">
+    <perfect-scrollbar class="max-h-[calc(100vh-300px)]">
+      <div class="overflow-x-auto">
         <table
-          class="w-full text-sm text-left text-gray-500 dark:text-gray-400 lg:overflow-auto overflow-x-scroll"
+          class="w-full text-sm text-left text-slate-600 dark:text-slate-400"
         >
           <thead
-            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+            class="text-[11px] font-bold uppercase tracking-wider text-slate-500 bg-slate-50/80 dark:bg-slate-900/40 border-b border-slate-100 dark:border-slate-700"
           >
             <tr>
               <th
                 v-for="header in headers"
-                :key="header"
+                :key="header.value"
                 scope="col"
-                class="uppercase px-2 py-3"
+                class="px-6 py-4 font-semibold"
                 :class="header.class"
               >
-                <a
+                <button
                   v-if="header.sortable"
-                  href="#"
-                  class="text-blue-600"
+                  class="flex items-center gap-1 hover:text-indigo-600 transition-colors uppercase"
                   @click.prevent="sortByColumn(header.value)"
                 >
                   {{ header.text }}
-                  <span v-if="header.value === sortedColumn">
-                    <i v-if="direction === 'asc'" class="fe fe-arrow-up"></i>
-                    <i v-else class="fe fe-arrow-down"></i>
+                  <span
+                    v-if="header.value === sortedColumn"
+                    class="ml-1 text-indigo-500"
+                  >
+                    <Icon
+                      :icon="
+                        direction === 'asc'
+                          ? 'heroicons:chevron-up'
+                          : 'heroicons:chevron-down'
+                      "
+                      class="w-3.5 h-3.5"
+                    />
                   </span>
-                </a>
+                </button>
                 <span v-else>{{ header.text }}</span>
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
             <tr
-              v-for="item in items"
-              :key="item"
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50"
+              v-for="(item, idx) in items"
+              :key="item.id || idx"
+              class="group hover:bg-slate-50/80 dark:hover:bg-slate-700/30 transition-colors cursor-pointer"
               @click="() => $emit('click-item', item)"
             >
               <td
                 v-for="header in headers"
-                :key="header"
-                scope="col"
-                class="px-2 py-3 cursor-pointer"
+                :key="header.value"
+                class="px-6 py-4 transition-all"
                 :class="header.class"
                 :width="header.width"
-                @click="edit(item, header)"
+                @click.stop="edit(item, header)"
               >
-                <slot :name="'item-' + header.value" :item="item">{{
-                  item[header.value] ?? "Нет"
-                }}</slot>
+                <slot :name="'item-' + header.value" :item="item">
+                  <span class="font-medium text-slate-700 dark:text-slate-300">
+                    {{ item[header.value] ?? "—" }}
+                  </span>
+                </slot>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </perfect-scrollbar>
-    <loading-component :enabled="loading" />
+
+    <div
+      v-if="loading"
+      class="p-8 flex justify-center border-t border-slate-100 dark:border-slate-700"
+    >
+      <loading-component :enabled="loading" />
+    </div>
+
     <div
       v-if="!loading && items.length === 0"
-      class="pt-5 text-gray-700 dark:text-gray-400 card-footer font-size-sm"
+      class="p-12 text-center text-slate-400 dark:text-slate-500 italic"
     >
-      {{ messageForEmptyTable }}
+      <Icon icon="heroicons:inbox" class="w-12 h-12 mx-auto mb-3 opacity-20" />
+      <p>{{ messageForEmptyTable || "Нет данных для отображения" }}</p>
     </div>
-    <div v-if="!loading && items.length > 0" class="card-footer">
+
+    <div
+      v-if="!loading && items.length > 0"
+      class="px-6 py-4 border-t border-slate-100 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50"
+    >
       <pagination-component :per-page="perPage" :total="itemsTotal" />
     </div>
   </div>
@@ -79,10 +103,11 @@
 <script>
 import LoadingComponent from "./LoadingComponent.vue";
 import PaginationComponent from "./PaginationComponent.vue";
+import { Icon } from "@iconify/vue";
 
 export default {
   name: "GridComponent",
-  components: { LoadingComponent, PaginationComponent },
+  components: { LoadingComponent, PaginationComponent, Icon },
   props: {
     items: {
       type: Array,

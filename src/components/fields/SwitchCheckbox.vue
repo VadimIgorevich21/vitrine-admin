@@ -1,24 +1,23 @@
 <template>
-  <div class="form-group-row mb-2">
-    <div class="custom-control custom-switch">
-      <input
-        :id="id"
-        type="checkbox"
-        class="custom-control-input"
-        :checked="modelValue"
-        v-bind="attrs"
-        @change="$emit('update:modelValue', $event.target.checked)"
+  <div
+    class="flex items-center gap-3 mb-4 group cursor-pointer"
+    @click="$emit('update:modelValue', !modelValue)"
+  >
+    <div
+      class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+      :class="modelValue ? 'bg-indigo-600' : 'bg-slate-200 dark:bg-slate-700'"
+    >
+      <span
+        aria-hidden="true"
+        class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+        :class="modelValue ? 'translate-x-5' : 'translate-x-0'"
       />
-      <label
-        :for="id"
-        class="custom-control-label text-gray-900 dark:text-gray-200"
-      >
-        <slot>
-          <!-- По умолчанию, если слот не передан, ничего не показываем -->
-          {{ defaultLabel }}
-        </slot>
-      </label>
     </div>
+    <label
+      class="text-sm font-medium text-slate-700 dark:text-slate-300 cursor-pointer select-none"
+    >
+      <slot>{{ defaultLabel }}</slot>
+    </label>
   </div>
 </template>
 
