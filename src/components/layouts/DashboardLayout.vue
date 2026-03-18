@@ -1,39 +1,82 @@
 <template>
   <div>
-    <!-- App -->
-    <div class="flex bg-packed font-lexend dark:bg-gray-900 items-center">
+    <!-- App Container -->
+    <div
+      class="flex h-screen bg-packed font-lexend dark:bg-gray-950 overflow-hidden transition-colors duration-300"
+    >
+      <!-- Sidebar Container -->
       <div
         id="sidebar-scroll"
-        class="flex-sidebar lg:flex-auto w-sidebar lg:block hidden bg-white dark:bg-gray-800 border-r-2 dark:border-gray-700 h-screen lg:z-0 z-40 overflow-auto lg:relative fixed"
+        class="flex-sidebar lg:w-sidebar w-[280px] lg:static fixed inset-y-0 left-0 z-50 bg-white dark:bg-gray-900 shadow-xl lg:shadow-none transition-transform duration-300 transform lg:translate-x-0"
+        :class="{
+          '-translate-x-full': !sidebarVisible,
+          'translate-x-0': sidebarVisible,
+        }"
       >
-        <SidebarComponent />
+        <SidebarComponent @close="sidebarVisible = false" />
       </div>
+
+      <!-- Main Content -->
       <div
         id="body-scroll"
-        class="flex-auto w-full overflow-auto h-screen pb-50px"
+        class="flex-auto relative w-full overflow-y-auto h-full flex flex-col"
       >
-        <HeaderComponent />
-        <div id="mobile-for-header"></div>
-        <slot />
+        <!-- Mobile Header / Toggle -->
+        <div
+          class="lg:hidden flex items-center p-4 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 sticky top-0 z-30"
+        >
+          <button
+            class="p-2 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-all"
+            @click="sidebarVisible = true"
+          >
+            <Icon icon="heroicons:bars-3-bottom-left" class="w-6 h-6" />
+          </button>
+          <span class="ml-4 font-bold text-gray-800 dark:text-gray-200"
+            >Vitrine Admin</span
+          >
+        </div>
+
+        <!-- Scrollable Content Area -->
+        <div class="flex-grow p-4 lg:p-8">
+          <slot />
+        </div>
+
         <FooterComponent />
       </div>
+
+      <!-- Mobile Overlay -->
+      <div
+        v-if="sidebarVisible"
+        class="lg:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity"
+        @click="sidebarVisible = false"
+      ></div>
     </div>
   </div>
-  <!-- end app -->
 </template>
 
 <script>
 import SidebarComponent from "../partials/SidebarComponent.vue";
-import HeaderComponent from "../partials/HeaderComponent.vue";
 import FooterComponent from "../partials/FooterComponent.vue";
+import { Icon } from "@iconify/vue";
 
 export default {
   name: "App",
 
   components: {
-    HeaderComponent,
     FooterComponent,
     SidebarComponent,
+    Icon,
+  },
+  data() {
+    return {
+      sidebarVisible: false,
+    };
+  },
+  watch: {
+    $route() {
+      // Close sidebar on mobile when route changes
+      this.sidebarVisible = false;
+    },
   },
   mounted() {
     // const scrollbar = Scrollbar.init(document.querySelector("#body-scroll"));

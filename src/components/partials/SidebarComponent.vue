@@ -1,133 +1,101 @@
 <template>
   <!-- sidebar -->
-  <nav class="sidebar bg-white dark:bg-gray-800">
+  <nav
+    class="sidebar flex flex-col h-screen bg-gray-50/50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-colors duration-300 overflow-y-auto"
+  >
     <!-- sidebar head -->
-    <div class="sidebar-head p-4">
-      <router-link to="/" exact>
-        <h2
-          class="text-2xl font-normal text-gray-800 dark:text-gray-500"
-          translate="no"
-        >
-          <img
-            src="../../assets/img/logo.png"
-            alt="Logo"
-            style="width: 150px"
-            class="logo"
-          />
-          <span
-            class="bg-gray-700 absolute mt-2 dark:block hidden rounded-md py-1 px-2 text-xs text-gray-200"
-            >Dark mode</span
-          >
-        </h2>
+    <div
+      class="sidebar-head px-6 py-8 flex items-center justify-center bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700/50 shadow-sm mb-4"
+    >
+      <router-link
+        to="/"
+        exact
+        class="hover:scale-105 transition-transform duration-300"
+      >
+        <img
+          src="../../assets/img/logo.png"
+          alt="Logo"
+          style="width: 140px"
+          class="logo opacity-90"
+        />
       </router-link>
       <button
-        class="lg:hidden block float-right -mt-7 dark:text-gray-200"
+        class="lg:hidden absolute top-6 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
         @click="sidebarToggle"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-          role="img"
-          width="25px"
-          height="25px"
-          preserveAspectRatio="xMidYMid meet"
-          viewBox="0 0 32 32"
-        >
-          <path
-            fill="currentColor"
-            d="M7.219 5.781L5.78 7.22L14.563 16L5.78 24.781l1.44 1.439L16 17.437l8.781 8.782l1.438-1.438L17.437 16l8.782-8.781L24.78 5.78L16 14.563z"
-          />
-        </svg>
+        <Icon icon="heroicons:x-mark" class="w-6 h-6" />
       </button>
     </div>
-    <!-- sidebar list -->
-    <div class="sidebar-list py-4 px-2 mt-4 pb-24 md:pb-4">
-      <div class="wrap-item mt-4 dark:text-gray-500">
-        <div v-if="is('admin') || can('test')" class="item mt-3">
-          <router-link
-            to="/orders"
-            exact
-            class="w-full flex text-left rounded-md box-border py-3 px-1 hover:bg-gray-100 dark:hover:bg-gray-700"
-          >
-            <span class="mr-3 text-xl"><Icon icon="bx:dollar-circle" /></span>
-            <span class="w-full"> Заказы </span>
-          </router-link>
-        </div>
-        <div v-if="is('admin') || can('test')" class="item mt-3">
-          <router-link
-            to="/clients"
-            exact
-            class="w-full flex text-left rounded-md box-border py-3 px-1 hover:bg-gray-100 dark:hover:bg-gray-700"
-          >
-            <span class="mr-3 text-xl"><Icon icon="bi:activity" /></span>
-            <span class="w-full"> Клиенты </span>
-          </router-link>
-        </div>
-        <div class="!hidden item mt-3">
-          <menu-accordion>
-            <template #icon><Icon icon="bi:activity" /></template>
-            <template #title>
-              <span class="w-full"> Статистика Users </span>
-            </template>
-            <template #content>
-              <div class="item mt-3">
-                <router-link
-                  to="/users"
-                  exact
-                  class="w-full flex text-left rounded-md box-border py-3 px-1 hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  <span class="mr-3 text-xl"><Icon icon="bi:activity" /></span>
-                  <span class="w-full"> Users </span>
-                </router-link>
-              </div>
-              <div class="item mt-3">
-                <router-link
-                  to="/maintenance"
-                  exact
-                  class="w-full flex text-left rounded-md box-border py-3 px-1 hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  <span class="mr-3 text-xl"><Icon icon="bi:activity" /></span>
-                  <span class="w-full"> maintenance </span>
-                </router-link>
-              </div>
-            </template>
-          </menu-accordion>
-        </div>
+
+    <!-- sidebar navigation -->
+    <div class="flex-grow px-3 space-y-1.5">
+      <div v-if="is('admin') || can('test')">
+        <router-link
+          to="/orders"
+          exact
+          class="nav-link-custom group flex !flex-row items-center px-4 py-3 text-sm font-medium text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all border border-transparent"
+          active-class="!bg-white dark:!bg-gray-800 !text-indigo-600 dark:!text-indigo-400 !border-gray-200 dark:!border-gray-700 shadow-sm"
+        >
+          <Icon
+            icon="heroicons:shopping-cart"
+            class="w-5 h-5 mr-3 flex-shrink-0"
+          />
+          <span class="whitespace-nowrap">Заказы</span>
+        </router-link>
       </div>
-      <p class="!hidden font-medium text-gray-400 mt-4 dark:text-gray-600">
-        Разделитель
-      </p>
-      <div class="!hidden wrap-item mt-4 dark:text-gray-500">
-        <div class="item mt-3">
-          <router-link
-            to="/settings"
-            exact
-            class="w-full flex text-left rounded-md box-border py-3 px-1 hover:bg-gray-100 dark:hover:bg-gray-700"
-          >
-            <span class="mr-3 text-xl">
-              <Icon icon="bx:dollar-circle" />
-            </span>
-            <span class="w-full"> Настройки </span>
-          </router-link>
-        </div>
+      <div v-if="is('admin') || can('test')">
+        <router-link
+          to="/clients"
+          exact
+          class="nav-link-custom group flex !flex-row items-center px-4 py-3 text-sm font-medium text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all border border-transparent"
+          active-class="!bg-white dark:!bg-gray-800 !text-indigo-600 dark:!text-indigo-400 !border-gray-200 dark:!border-gray-700 shadow-sm"
+        >
+          <Icon icon="heroicons:users" class="w-5 h-5 mr-3 flex-shrink-0" />
+          <span class="whitespace-nowrap">Клиенты</span>
+        </router-link>
       </div>
-      <p class="!hidden font-medium text-gray-400 mt-4 dark:text-gray-600">
-        Дополнительно
-      </p>
-      <div class="!hidden wrap-item mt-4 dark:text-gray-500">
-        <div v-if="authStore.identity.id === 1" class="item mt-3">
-          <router-link
-            to="/users/1/edit"
-            exact
-            class="w-full flex text-left rounded-md box-border py-3 px-1 hover:bg-gray-100 dark:hover:bg-gray-700"
-          >
-            <span class="mr-3 text-xl">
-              <Icon icon="bx:dollar-circle" />
-            </span>
-            <span class="w-full"> Edit1 </span>
-          </router-link>
-        </div>
+    </div>
+
+    <!-- sidebar footer -->
+    <div
+      class="p-4 mt-auto border-t border-gray-200 dark:border-gray-800 space-y-1 bg-gray-50/80 dark:bg-gray-900/50"
+    >
+      <div v-if="is('admin')">
+        <router-link
+          to="/users"
+          class="nav-link-custom group flex !flex-row items-center px-4 py-3 text-sm font-medium text-gray-500 dark:text-gray-400 rounded-lg hover:bg-white dark:hover:bg-gray-800 transition-all border border-transparent"
+          active-class="!bg-white dark:!bg-gray-800 !text-indigo-600 dark:!text-indigo-400 !border-gray-200 dark:!border-gray-700 shadow-sm"
+        >
+          <Icon
+            icon="heroicons:user-group"
+            class="w-5 h-5 mr-3 flex-shrink-0"
+          />
+          <span class="whitespace-nowrap">Пользователи</span>
+        </router-link>
       </div>
+      <div>
+        <router-link
+          to="/settings/change-password"
+          class="nav-link-custom group flex !flex-row items-center px-4 py-3 text-sm font-medium text-gray-500 dark:text-gray-400 rounded-lg hover:bg-white dark:hover:bg-gray-800 transition-all border border-transparent"
+          active-class="!bg-white dark:!bg-gray-800 !text-indigo-600 dark:!text-indigo-400 !border-gray-200 dark:!border-gray-700 shadow-sm"
+        >
+          <Icon
+            icon="heroicons:cog-6-tooth"
+            class="w-5 h-5 mr-3 flex-shrink-0"
+          />
+          <span class="whitespace-nowrap">Настройки</span>
+        </router-link>
+      </div>
+      <button
+        class="w-full group flex !flex-row items-center px-4 py-3 text-sm font-medium text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-all"
+        @click="authStore.logout"
+      >
+        <Icon
+          icon="heroicons:arrow-right-on-rectangle"
+          class="w-5 h-5 mr-3 flex-shrink-0"
+        />
+        <span class="whitespace-nowrap">Выход</span>
+      </button>
     </div>
   </nav>
 </template>
@@ -135,12 +103,10 @@
 import { Icon } from "@iconify/vue";
 import { useAuth } from "@/stores/authStore";
 import { syncConfigs } from "@/stores/syncConfigs";
-import MenuAccordion from "../partials/MenuAccordion.vue";
-import { mapGetters, mapState } from "pinia";
+import { mapState } from "pinia";
 
 export default {
   components: {
-    MenuAccordion,
     Icon,
   },
   setup() {
@@ -170,7 +136,7 @@ export default {
   },
   methods: {
     sidebarToggle: function () {
-      document.querySelector(".flex-sidebar").classList.add("hidden");
+      this.$emit("close");
     },
   },
 };
