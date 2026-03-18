@@ -6,44 +6,91 @@
       <form @submit.prevent="submit">
         <div class="row justify-center">
           <div class="col-lg-8">
-            <div class="mb-5">
-              <div class="font-size-20 font-bold">Детали заказа</div>
-              <div class="border-2 border-gray-300 bg-gray-200 p-1">
-                <div>
-                  <span class="font-bold">Клиент:</span>
-                  {{ order.user.name }}
+            <div
+              class="mb-8 overflow-hidden bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm"
+            >
+              <div
+                class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800"
+              >
+                <h3
+                  class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2"
+                >
+                  <Icon
+                    icon="heroicons:document-text"
+                    class="w-5 h-5 text-sky-500"
+                  />
+                  Детали заказа
+                </h3>
+              </div>
+              <div
+                class="p-5 space-y-1.5 text-sm text-slate-600 dark:text-slate-400"
+              >
+                <div class="flex items-center gap-2">
+                  <span class="italic text-slate-400 dark:text-slate-500"
+                    >Клиент:</span
+                  >
+                  <span
+                    class="font-medium text-slate-700 dark:text-slate-200"
+                    >{{ order.user.name }}</span
+                  >
                 </div>
-                <div>
-                  <span class="font-bold">Кошелек клиента:</span>
-                  {{ order.wallet_address }}
+                <div class="flex flex-wrap items-center gap-2 pb-0.5">
+                  <span class="italic text-slate-400 dark:text-slate-500"
+                    >Кошелек клиента:</span
+                  >
                   <button
-                    class="operation-preview-copy-info-link"
+                    class="p-1 hover:bg-sky-50 dark:hover:bg-sky-500/10 text-sky-500 rounded transition-colors flex-shrink-0"
+                    title="Скопировать"
                     @click.prevent="copyText(order.wallet_address)"
                   >
-                    <i class="fe fe-copy"></i>
+                    <Icon icon="heroicons:clipboard-document" class="w-4 h-4" />
                   </button>
+                  <span
+                    class="font-mono text-[11px] text-slate-500 dark:text-slate-500 flex-1 min-w-0 break-all select-all"
+                    >{{ order.wallet_address }}</span
+                  >
                 </div>
-                <div>
-                  <span class="font-bold">Направление:</span>
-                  {{ order.direction }}
+                <div class="flex items-center gap-2">
+                  <span class="italic text-slate-400 dark:text-slate-500"
+                    >Направление:</span
+                  >
+                  <span
+                    class="font-medium text-slate-700 dark:text-slate-200"
+                    >{{ order.direction }}</span
+                  >
                 </div>
-                <div>
-                  <span class="font-bold">Сумма крипты:</span>
-                  {{ cryptoAmount }}
-                  {{ cryptoCurrency }}
+                <div class="flex items-center gap-2">
+                  <span class="italic text-slate-400 dark:text-slate-500"
+                    >Сумма крипты:</span
+                  >
+                  <span class="font-medium text-slate-700 dark:text-slate-200"
+                    >{{ cryptoAmount }} {{ cryptoCurrency }}</span
+                  >
                 </div>
-                <div>
-                  <span class="font-bold">Сумма фиата:</span>
-                  {{ fiatAmount }}
-                  {{ fiatCurrency }}
+                <div class="flex items-center gap-2">
+                  <span class="italic text-slate-400 dark:text-slate-500"
+                    >Сумма фиата:</span
+                  >
+                  <span class="font-medium text-slate-700 dark:text-slate-200"
+                    >{{ fiatAmount }} {{ fiatCurrency }}</span
+                  >
                 </div>
-                <div>
-                  <span class="font-bold">Тариф:</span>
-                  {{ exchangeRate }}
+                <div class="flex items-center gap-2">
+                  <span class="italic text-slate-400 dark:text-slate-500"
+                    >Тариф:</span
+                  >
+                  <span
+                    class="font-medium text-slate-700 dark:text-slate-200"
+                    >{{ exchangeRate }}</span
+                  >
                 </div>
-                <div>
-                  <span class="font-bold">Fee:</span>
-                  {{ commissionAmount }} {{ fiatCurrency }}
+                <div class="flex items-center gap-2">
+                  <span class="italic text-slate-400 dark:text-slate-500"
+                    >Fee:</span
+                  >
+                  <span class="font-medium text-slate-700 dark:text-slate-200"
+                    >{{ commissionAmount }} {{ fiatCurrency }}</span
+                  >
                 </div>
               </div>
             </div>
@@ -95,25 +142,29 @@
 
             <div class="form-group row">
               <div class="col-lg-12">
-                <submit-button
-                  :disabled="!canTransferToProcessing"
-                  :submitting="submitting && action === 'transferToProcessing'"
-                  button-type="button"
-                  class="mr-2 mb-2 text-nowrap"
-                  @click="() => submit('transferToProcessing')"
-                >
-                  В обработку
-                </submit-button>
+                <div class="flex flex-wrap items-center gap-4 mt-6">
+                  <submit-button
+                    :disabled="!canTransferToProcessing"
+                    :submitting="
+                      submitting && action === 'transferToProcessing'
+                    "
+                    button-type="button"
+                    class="min-w-[160px]"
+                    @click="() => submit('transferToProcessing')"
+                  >
+                    В обработку
+                  </submit-button>
 
-                <submit-button
-                  :disabled="!canComplete"
-                  :submitting="submitting && action === 'complete'"
-                  button-type="button"
-                  class="mr-2 mb-2 text-nowrap"
-                  @click="() => submit('complete')"
-                >
-                  Выполнен
-                </submit-button>
+                  <submit-button
+                    :disabled="!canComplete"
+                    :submitting="submitting && action === 'complete'"
+                    button-type="button"
+                    class="min-w-[160px]"
+                    @click="() => submit('complete')"
+                  >
+                    Выполнен
+                  </submit-button>
+                </div>
               </div>
             </div>
           </div>
@@ -134,9 +185,11 @@ import { ReworkedMultiselect } from "@/components/reworked-multiselect";
 import HasErrorVisibility from "@/components/HasErrorVisibility.vue";
 import { copyText } from "vue3-clipboard";
 import { notify } from "@kyvg/vue3-notification";
+import { Icon } from "@iconify/vue";
 
 export default {
   components: {
+    Icon,
     HasErrorVisibility,
     SubmitButton,
     ReworkedMultiselect,

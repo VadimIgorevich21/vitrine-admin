@@ -1362,46 +1362,53 @@ input[type="tel"],
 input[type="url"],
 textarea,
 select {
-    @apply rounded-lg border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700 transition-all duration-200 outline-none p-2.5 !important;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-    @apply border-indigo-500 ring-4 ring-indigo-500/10 dark:ring-indigo-500/20 !important;
+    @apply rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all duration-200 shadow-sm !important;
 }
 
 .btn-primary,
 .green-button,
 .info-button {
-    @apply rounded-lg font-semibold transition-all duration-200 active:scale-[0.98] shadow-sm !important;
+    @apply rounded-xl font-bold transition-all duration-200 active:scale-[0.98] shadow-md !important;
+}
+
+.btn-primary {
+    @apply bg-sky-500 hover:bg-sky-600 text-white border-none py-2.5 px-6 !important;
+    background-image: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%);
 }
 
 .green-button {
-    background-color: #10b981 !important; /* Emerald 500 */
-}
-
-.green-button:hover {
-    background-color: #059669 !important; /* Emerald 600 */
-    @apply shadow-emerald-200/50 dark:shadow-none !important;
+    @apply bg-emerald-500 hover:bg-emerald-600 text-white border-none !important;
+    background-image: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%);
 }
 
 .info-button {
-    background-color: #6366f1 !important; /* Indigo 500 */
+    @apply bg-sky-400 hover:bg-sky-500 text-white border-none !important;
 }
 
-.info-button:hover {
-    background-color: #4f46e5 !important; /* Indigo 600 */
-    @apply shadow-indigo-200/50 dark:shadow-none !important;
+/* Status Badges Reinvented */
+.status-badge {
+    @apply px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider border transition-all duration-300 flex items-center gap-1.5 w-fit !important;
 }
 
-.project-styled-grid-table tr:hover {
-    background-color: theme('colors.slate.50') !important;
+.status-badge::before {
+    content: '';
+    @apply w-1.5 h-1.5 rounded-full;
 }
 
-.dark .project-styled-grid-table tr:hover {
-    background-color: theme('colors.slate.800') !important;
+.status-completed {
+    @apply bg-emerald-50 text-emerald-700 border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20 !important;
 }
+.status-completed::before { @apply bg-emerald-500 animate-pulse; }
+
+.status-pending {
+    @apply bg-amber-50 text-amber-700 border-amber-100 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20 !important;
+}
+.status-pending::before { @apply bg-amber-500; }
+
+.status-error {
+    @apply bg-rose-50 text-rose-700 border-rose-100 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20 !important;
+}
+.status-error::before { @apply bg-rose-500 animate-bounce; }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {

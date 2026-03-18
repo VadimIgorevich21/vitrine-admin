@@ -7,35 +7,28 @@
       <div class="card-header h-auto pb-3">
         <div class="row align-items-center">
           <div class="col-lg-6">
-            <div class="input-group input-group-merge input-group-sm">
-              <!-- Input -->
-              <input
-                ref="searchInput"
-                v-model="searchText"
-                type="search"
-                class="form-control form-control-prepended list-search dark:bg-gray-800 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-300 border block rounded-md text-gray-500 dark:text-gray-400 focus:border-blue-500 dark:focus:border-blue-500"
-                placeholder="Поиск"
-                @keyup.enter="applySearch"
-                @input="onEmptySearchInput"
-              />
-
-              <!-- Prepend -->
-              <div class="input-group-prepend">
-                <div
-                  class="input-group-text bg-gray-100 dark:bg-gray-500 text-gray-700 dark:text-gray-400 border border-gray-200 dark:border-gray-300 focus:border-blue-500"
-                >
-                  <span class="fe fe-search" />
-                </div>
+            <div class="flex items-center gap-2">
+              <div class="relative flex-1 group">
+                <Icon
+                  icon="heroicons:magnifying-glass"
+                  class="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-sky-500 transition-colors pointer-events-none"
+                />
+                <input
+                  ref="searchInput"
+                  v-model="searchText"
+                  type="search"
+                  class="w-full pl-11 pr-4 py-2.5 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-sm focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 outline-none transition-all"
+                  placeholder="Поиск клиентов..."
+                  @keyup.enter="applySearch"
+                  @input="onEmptySearchInput"
+                />
               </div>
-              <!-- 🔹 Кнопка справа -->
-              <div class="input-group-append">
-                <button
-                  class="px-2 bg-blue-500 text-white cursor-pointer"
-                  @click="applySearch"
-                >
-                  Поиск
-                </button>
-              </div>
+              <button
+                class="px-6 py-2.5 bg-sky-500 hover:bg-sky-600 text-white text-sm font-bold rounded-xl shadow-sm transition-all active:scale-95 flex items-center gap-2"
+                @click="applySearch"
+              >
+                Поиск
+              </button>
             </div>
           </div>
         </div>
@@ -151,9 +144,11 @@ import UserService from "@/services/UserService";
 import { identity, pickBy } from "lodash";
 import KycStatusAttribute from "@/views/clients/partial/KycStatusAttribute.vue";
 import { notify } from "@kyvg/vue3-notification";
+import { Icon } from "@iconify/vue";
 
 export default {
   components: {
+    Icon,
     KycStatusAttribute,
     WrapperComponent,
     PaginationComponent,

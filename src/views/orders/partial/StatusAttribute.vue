@@ -1,44 +1,31 @@
 <template>
-  <span class="whitespace-nowrap text-center">
+  <div class="flex justify-center">
     <span
-      v-if="order.status === 'completed'"
-      class="status-badge status-completed"
-      >Выполнен</span
+      class="status-badge"
+      :class="{
+        'status-completed': order.status === 'completed',
+        'status-pending':
+          order.status === 'pending' || order.status === 'processing',
+        'status-error': order.status === 'error' || order.status === 'expired',
+        'status-verifying': order.status === 'verifying',
+        'status-paid': order.status === 'paid',
+        'status-cancelled': order.status === 'cancelled',
+      }"
     >
-    <span
-      v-else-if="order.status === 'pending'"
-      class="status-badge status-pending"
-      >Ожидание оплаты</span
-    >
-    <span
-      v-else-if="order.status === 'verifying'"
-      class="status-badge status-verifying"
-      >Проверка оплаты</span
-    >
-    <span v-else-if="order.status === 'paid'" class="status-badge status-paid"
-      >Оплачен</span
-    >
-    <span
-      v-else-if="order.status === 'processing'"
-      class="status-badge status-processing"
-      >В обработке</span
-    >
-
-    <span
-      v-else-if="order.status === 'expired'"
-      class="status-badge status-expired"
-      >Просрочен</span
-    >
-
-    <span v-else-if="order.status === 'error'" class="status-badge status-error"
-      >Ошибка платежа</span
-    >
-    <span
-      v-else-if="order.status === 'cancelled'"
-      class="status-badge status-cancelled"
-      >Отменен (после оплаты)</span
-    >
-  </span>
+      <template v-if="order.status === 'completed'">Выполнен</template>
+      <template v-else-if="order.status === 'pending'"
+        >Ожидание оплаты</template
+      >
+      <template v-else-if="order.status === 'verifying'"
+        >Проверка оплаты</template
+      >
+      <template v-else-if="order.status === 'paid'">Оплачен</template>
+      <template v-else-if="order.status === 'processing'">В обработке</template>
+      <template v-else-if="order.status === 'expired'">Просрочен</template>
+      <template v-else-if="order.status === 'error'">Ошибка платежа</template>
+      <template v-else-if="order.status === 'cancelled'">Отменен</template>
+    </span>
+  </div>
 </template>
 
 <script>
@@ -46,71 +33,32 @@ export default {
   props: {
     order: {
       type: Object,
-      default: function () {
-        return {
-          status: null,
-        };
-      },
+      default: () => ({ status: null }),
     },
   },
 };
 </script>
 
 <style scoped>
-.status-badge {
-  padding: 4px 12px;
-  border-radius: 99px;
-  font-size: 12px;
-  font-weight: 500;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-}
-
-/* Colors based on requirements and common design patterns */
-.status-completed {
-  background-color: #027a48;
-  color: #ffffff;
-}
-
-.status-error {
-  background-color: #fef3f2;
-  color: #b42318;
-}
-
-.status-cancelled {
-  background-color: #f2f4f7;
-  color: #667085;
-}
-
-.status-pending {
-  background-color: #fff9e9;
-  color: #b54708;
-}
-
+/* Scoped styles are now minimized as we use global custom.css for base badge styling */
 .status-verifying {
-  background-color: #eff6ff;
-  color: #175cd3;
+  @apply bg-sky-50 text-sky-700 border-sky-100 dark:bg-sky-500/10 dark:text-sky-400 dark:border-sky-500/20 !important;
+}
+.status-verifying::before {
+  @apply bg-sky-500 animate-pulse;
 }
 
 .status-paid {
-  background-color: #f0f9ff;
-  color: #026aa2;
+  @apply bg-indigo-50 text-indigo-700 border-indigo-100 dark:bg-indigo-500/10 dark:text-indigo-400 dark:border-indigo-500/20 !important;
+}
+.status-paid::before {
+  @apply bg-indigo-500;
 }
 
-.status-processing {
-  background-color: #fff9e9;
-  color: #b54708;
+.status-cancelled {
+  @apply bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-700/50 dark:text-slate-400 dark:border-slate-700/50 !important;
 }
-
-.status-expired {
-  background-color: #f9fafb;
-  color: #475467;
-}
-
-.status-default {
-  background-color: #f2f4f7;
-  color: #344054;
+.status-cancelled::before {
+  @apply bg-slate-400;
 }
 </style>

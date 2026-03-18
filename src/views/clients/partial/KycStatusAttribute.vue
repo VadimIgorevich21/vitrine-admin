@@ -1,26 +1,20 @@
 <template>
-  <span class="whitespace-nowrap text-center">
+  <div class="flex justify-center">
     <span
-      v-if="user.kyc_status === 'not_started'"
-      class="bg-blue-700 rounded-md text-xs py-1 px-4 text-white text-xs"
-      >Not Started</span
+      class="status-badge"
+      :class="{
+        'status-completed': user.kyc_status === 'completed',
+        'status-pending': user.kyc_status === 'pending',
+        'status-error': user.kyc_status === 'rejected',
+        'status-not-started': user.kyc_status === 'not_started',
+      }"
     >
-    <span
-      v-else-if="user.kyc_status === 'completed'"
-      class="bg-green-700 rounded-md py-1 px-4 text-white text-xs"
-      >Completed</span
-    >
-    <span
-      v-else-if="user.kyc_status === 'rejected'"
-      class="bg-red-700 rounded-md py-1 px-4 text-white text-xs"
-      >Rejected</span
-    >
-    <span
-      v-else-if="user.kyc_status === 'pending'"
-      class="bg-yellow-200 rounded-md py-1 px-4 text-yellow-700 text-xs"
-      >Pending</span
-    >
-  </span>
+      <template v-if="user.kyc_status === 'not_started'">Not Started</template>
+      <template v-else-if="user.kyc_status === 'completed'">Completed</template>
+      <template v-else-if="user.kyc_status === 'rejected'">Rejected</template>
+      <template v-else-if="user.kyc_status === 'pending'">Pending</template>
+    </span>
+  </div>
 </template>
 
 <script>
