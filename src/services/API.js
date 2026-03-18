@@ -28,7 +28,7 @@ apiClient.interceptors.request.use((config) => {
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 503) {
+    if (error.response && error.response.status === 503) {
       console.log("maintenance");
       router.push("/maintenance");
     }
