@@ -292,7 +292,7 @@ export default {
     marketPrice() {
       let value = Number(this.order.market_price).toLocaleString("en-US", {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 4,
+        maximumFractionDigits: 8,
       });
 
       return (
@@ -302,13 +302,13 @@ export default {
     adjustmentPercent() {
       return Number(this.order.adjustment_percent).toLocaleString("en-US", {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 4,
+        maximumFractionDigits: 8,
       });
     },
     unitPrice() {
       let value = Number(this.order.unit_price).toLocaleString("en-US", {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 4,
+        maximumFractionDigits: 8,
       });
       let percentValue = this.adjustmentPercent;
 
