@@ -77,19 +77,37 @@
                 </div>
                 <div class="flex items-center gap-2">
                   <span class="italic text-slate-400 dark:text-slate-500"
+                    >Fee:</span
+                  >
+                  <span class="font-medium text-slate-700 dark:text-slate-200"
+                    >{{ commissionAmount }} {{ fiatCurrency }}</span
+                  >
+                </div>
+                <div v-if="order.market_price" class="flex items-center gap-2">
+                  <span class="italic text-slate-400 dark:text-slate-500"
+                    >Цена Биржи:</span
+                  >
+                  <span
+                    class="font-medium text-slate-700 dark:text-slate-200"
+                    >{{ marketPrice }}</span
+                  >
+                </div>
+                <div v-if="order.unit_price" class="flex items-center gap-2">
+                  <span class="italic text-slate-400 dark:text-slate-500"
+                    >Цена клиента:</span
+                  >
+                  <span
+                    class="font-medium text-slate-700 dark:text-slate-200"
+                    >{{ unitPrice }}</span
+                  >
+                </div>
+                <div class="!hidden flex items-center gap-2">
+                  <span class="italic text-slate-400 dark:text-slate-500"
                     >Тариф:</span
                   >
                   <span
                     class="font-medium text-slate-700 dark:text-slate-200"
                     >{{ exchangeRate }}</span
-                  >
-                </div>
-                <div class="flex items-center gap-2">
-                  <span class="italic text-slate-400 dark:text-slate-500"
-                    >Fee:</span
-                  >
-                  <span class="font-medium text-slate-700 dark:text-slate-200"
-                    >{{ commissionAmount }} {{ fiatCurrency }}</span
                   >
                 </div>
               </div>
@@ -270,6 +288,37 @@ export default {
         minimumFractionDigits: 0,
         maximumFractionDigits: 2,
       });
+    },
+    marketPrice() {
+      let value = Number(this.order.market_price).toLocaleString("en-US", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 4,
+      });
+
+      return (
+        "1 " + this.cryptoCurrency + " = " + value + " " + this.fiatCurrency
+      );
+    },
+    adjustmentPercent() {
+      return Number(this.order.adjustment_percent).toLocaleString("en-US", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 4,
+      });
+    },
+    unitPrice() {
+      let value = Number(this.order.unit_price).toLocaleString("en-US", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 4,
+      });
+      let percentValue = this.adjustmentPercent;
+
+      if (Number(this.order.adjustment_percent) > 0) {
+        value = value + " " + this.fiatCurrency + " (+" + percentValue + "%)";
+      } else {
+        value = value + " " + this.fiatCurrency + " (-" + percentValue + "%)";
+      }
+
+      return "1 " + this.cryptoCurrency + " = " + value;
     },
   },
 
